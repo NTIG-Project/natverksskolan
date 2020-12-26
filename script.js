@@ -56,7 +56,7 @@ function createModal(location, locationID) {
 
     let modalHeader = document.createElement("div");
     modalHeader.setAttribute("class","modal-header");
-    modalHeader.innerHTML = "<h2>"+ location.name +"</h2>";
+    modalHeader.innerHTML = "<h2>"+ location.name +"</h2><button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>";
     modalContent.append(modalHeader);
 
     if (location.image) {
