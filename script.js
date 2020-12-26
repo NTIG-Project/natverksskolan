@@ -107,7 +107,7 @@ function createMarker(location, locationID) {
         }
     });
     marker.addListener("click", () => {
-        console.log(locationID);
+        modals[locationID].show();
       });
 }
 
