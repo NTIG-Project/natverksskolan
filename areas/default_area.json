@@ -1,0 +1,10 @@
+{"area_name":"Placeholder Area",
+"area_lat":"63.8256912",
+"area_lng":"20.2631702",
+"area_locations":[
+    {"location_name":"Placeholder Location",
+    "location_lat":63.8256912,
+    "location_lng":20.2631702,
+    "location_marker":"",
+    "location_description":"Lorem ipsum"}
+]}
