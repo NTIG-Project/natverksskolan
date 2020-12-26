@@ -5,9 +5,9 @@
 var map;
 var site;
 var area;
-var spinner;
 
 var loaded = {google: false, settings: false, area: false};
+var modals = {};
 
 
 
@@ -43,6 +43,42 @@ function loadAreaSettings(targetArea){
 
 
 //******************************************************************************
+// Modal functions
+//******************************************************************************
+
+function createModal(location, locationID) {
+
+    let modalHeader = document.createElement("div");
+    modalHeader.setAttribute("class","modal-header");
+
+    let modalBody = document.createElement("div");
+    modalBody.setAttribute("class","modal-body");
+
+    let modalFooter = document.createElement("div");
+    modalFooter.setAttribute("class","modal-footer");
+ 
+    let modalContent = document.createElement("div");
+    modalContent.setAttribute("class","modal-content");
+    modalContent.append(modalHeader);
+    modalContent.append(modalBody);
+    modalContent.append(modalFooter);
+
+    let modalDialog = document.createElement("div");
+    modalDialog.setAttribute("class","modal-dialog modal-dialog-centered");
+    modalDialog.append(modalContent);
+
+    let modal = document.createElement("div");
+    modal.setAttribute("class","modal");
+    modal.setAttribute("id",locationID);
+    modal.append(modalDialog);
+                
+    document.getElementsByTagName("body")[0].append(modal);
+
+    modals[locationID]=  new bootstrap.Modal(document.getElementById(locationID));
+}
+
+
+//******************************************************************************
 // Map functions
 //******************************************************************************
 
@@ -52,7 +88,7 @@ function readyMap() {
 }
 
 function loadMap() {
-    let centerPoint = { lat: 63.8256912, lng: 20.2631702 };
+    let centerPoint = { lat: area.lat, lng: area.lng };
     map = new google.maps.Map(document.getElementById("map-wrapper"), {
         zoom: 15,
         center: centerPoint,
@@ -61,30 +97,31 @@ function loadMap() {
     });
 }
 
-function loadMarkers() {
-    let locations = area.locations;
-    locations.forEach(function(data){
-        let marker = new google.maps.Marker({
-            map: map,
-            position: {
-                lat: data.lat,
-                lng: data.lng
-            }
-        })
+function createMarker(location, locationID) {
+    let marker = new google.maps.Marker({
+        map: map,
+        animation: google.maps.Animation.DROP,
+        position: {
+            lat: location.lat,
+            lng: location.lng
+        }
     });
+    marker.addListener("click", () => {
+        console.log(locationID);
+      });
 }
 
 
 
 //******************************************************************************
-// Site functions
+// Site initiation functions
 //******************************************************************************
 
 function initSite() {
-    spinner =  new bootstrap.Modal(document.getElementById('spinner-modal'),{
+    modals.spinner =  new bootstrap.Modal(document.getElementById('spinner-modal'),{
         backdrop:'static'
     });
-    spinner.show();
+    modals["spinner"].show();
 
     waitSite()
 }
@@ -110,7 +147,23 @@ function waitSite() {
 
 function loadSite() {
     loadMap();
-    loadMarkers();
+    loadArea();
 
-    spinner.hide();
+    modals["spinner"].hide();
+}
+
+
+//******************************************************************************
+// Site builder functions
+//******************************************************************************
+
+function loadArea () {
+    let locations = area.locations;
+    var locationCounter = 1;
+    locations.forEach(function(location){
+        let locationID = 'location' + locationCounter
+        createMarker(location, locationID);
+        createModal(location, locationID);
+        locationCounter++;
+    });
 }

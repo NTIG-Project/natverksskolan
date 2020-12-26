@@ -1,10 +1,15 @@
 {"name":"Placeholder Area",
-"lat":"63.8256912",
-"lng":"20.2631702",
+"lat":63.8256952,
+"lng":20.2631702,
 "locations":[
     {"name":"Placeholder Location",
-    "lat":63.8256912,
+    "lat":63.8250952,
     "lng":20.2631702,
     "marker":"",
-    "description":"Lorem ipsum"}
+    "description":"Lorem ipsum"},
+    {"name":"Placeholder Location 2",
+        "lat":63.8200952,
+        "lng":20.2631702,
+        "marker":"",
+        "description":"Lorem ipsum"}
 ]}
