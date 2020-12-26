@@ -48,23 +48,36 @@ function loadAreaSettings(targetArea){
 
 function createModal(location, locationID) {
 
+    if (!location.background) { location.background = "bg-light"}
+    if (!location.color) { location.color = "text-dark"}
+
+    let modalContent = document.createElement("div");
+    modalContent.setAttribute("class","modal-content " + location.background + " " + location.color );
+
     let modalHeader = document.createElement("div");
     modalHeader.setAttribute("class","modal-header");
+    modalHeader.innerHTML = "<h2>"+ location.name +"</h2>";
+    modalContent.append(modalHeader);
+
+    if (location.image) {
+        let modalImage = document.createElement("img");
+        modalImage.setAttribute("class","card-img-top");
+        modalImage.setAttribute("src", location.image);
+        modalContent.append(modalImage);
+    }
 
     let modalBody = document.createElement("div");
     modalBody.setAttribute("class","modal-body");
+    let markdown = new showdown.Converter();
+    modalBody.innerHTML = markdown.makeHtml(location.description);
+    modalContent.append(modalBody);
 
     let modalFooter = document.createElement("div");
     modalFooter.setAttribute("class","modal-footer");
- 
-    let modalContent = document.createElement("div");
-    modalContent.setAttribute("class","modal-content");
-    modalContent.append(modalHeader);
-    modalContent.append(modalBody);
     modalContent.append(modalFooter);
 
     let modalDialog = document.createElement("div");
-    modalDialog.setAttribute("class","modal-dialog modal-dialog-centered");
+    modalDialog.setAttribute("class","modal-dialog modal-dialog-centered modal-lg");
     modalDialog.append(modalContent);
 
     let modal = document.createElement("div");
@@ -74,7 +87,7 @@ function createModal(location, locationID) {
                 
     document.getElementsByTagName("body")[0].append(modal);
 
-    modals[locationID]=  new bootstrap.Modal(document.getElementById(locationID));
+    modals[locationID] =  new bootstrap.Modal(document.getElementById(locationID));
 }
 
 
