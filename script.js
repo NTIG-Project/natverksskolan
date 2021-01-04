@@ -2,12 +2,13 @@
 // Site Intialization
 //******************************************************************************
 
-var map;
-var site;
-var area;
+var map; // Google Maps object, from API
+var site; // Site settings object, from json
+var area; // Area settings object, from json
+var url;  // URL Get parameters
 
-var loaded = {google: false, settings: false, area: false};
-var modals = {};
+var loaded = {google: false, settings: false, area: false}; // Help for asynchronous loading  
+var modals = {}; // Container for all site modals
 
 
 
@@ -156,6 +157,10 @@ function initSite() {
     });
     modals["spinner"].show();
 
+
+    url = new URLSearchParams(window.location.search);
+
+
     waitSite()
 }
 
@@ -183,6 +188,9 @@ function loadSite() {
     loadArea();
 
     modals["spinner"].hide();
+
+    if (url.get("location")) { modals[url.get("location")].show() }
+
 }
 
 

@@ -3,6 +3,7 @@
 ## Settings
 
 * Läs api-nyckel från settings.json
+* Sidnamn
 
 ## Markers
 
@@ -18,4 +19,4 @@
 ## Blandat
 
 * Snygga till globala variabler
-* GET för Area och Locations
+* GET för Area
