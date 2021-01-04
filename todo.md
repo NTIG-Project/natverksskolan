@@ -3,6 +3,7 @@
 ## Settings
 
 * Läs api-nyckel från settings.json
+* Site-färger
 
 ## Markers
 
@@ -11,6 +12,7 @@
 ## Modals
 
 * Kopiera länk till location
+* Läsa in md.filer
 
 ## Sidemeny / Footermeny?
 
