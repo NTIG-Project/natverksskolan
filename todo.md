@@ -6,6 +6,8 @@
 
 ## Markers
 
+* Custom markers
+
 ## Modals
 
 

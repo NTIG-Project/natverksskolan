@@ -53,15 +53,14 @@ function loadAreaSettings(targetArea){
 
 function createModal(location, locationID) {
 
-    if (!location.background) { location.background = "bg-light"}
-    if (!location.color) { location.color = "text-dark"}
+    if (!location.style) { location.style = "bg-light text-dark"}
 
     let modalContent = document.createElement("div");
-    modalContent.setAttribute("class","modal-content " + location.background + " " + location.color );
+    modalContent.setAttribute("class","modal-content " + location.style);
 
     let modalHeader = document.createElement("div");
     modalHeader.setAttribute("class","modal-header");
-    modalHeader.innerHTML = "<h2>"+ location.name +"</h2><button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>";
+    modalHeader.innerHTML = "<h2>"+ location.name +"</h2><button type='button' class='btn "+ location.style +"' data-bs-dismiss='modal' aria-label='Close'><span class='material-icons'>close</span></button>";
     modalContent.append(modalHeader);
 
     if (location.image) {

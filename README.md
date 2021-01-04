@@ -20,14 +20,13 @@ Vidareutveckling av [https://github.com/KajSchmidt/natverksskolan]
 - lat
 - long
 - name
-- desciption
+- description
 
 **Valfria**
 
-- image
-- background
-- color
-- actions
+- image (default: ) Ange en bild URL.
+- style (default: bg-ligth text-dark) Sätt stilklasser från Bootstrap.
+- actions (default: ) Array med knappar.
 
 **Planerade**
 
