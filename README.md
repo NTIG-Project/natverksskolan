@@ -6,7 +6,8 @@ Vidareutveckling av [https://github.com/KajSchmidt/natverksskolan]
 
 ## Area Json
 
-#### Obligatoriska
+**Obligatoriska**
+
 - name
 - lat
 - long
@@ -14,19 +15,32 @@ Vidareutveckling av [https://github.com/KajSchmidt/natverksskolan]
 
 ### Locations
 
-#### Obligatoriska
+**Obligatoriska**
 
 - lat
 - long
 - name
 - desciption
 
-#### Valfria
+**Valfria**
 
 - image
 - background
 - color
+- actions
 
-#### Planerade
+**Planerade**
 
 - marker
+
+#### Actions
+
+**Obligatoriska**
+
+- name
+- href
+
+**Valfria**
+
+- style (default: btn-primary) Sätt stilklasser för knappar från Bootstrap.
+- target (default: _self) Sätt anchor target för att öppna i samma eller nytt fönster.

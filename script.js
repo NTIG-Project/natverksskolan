@@ -72,6 +72,25 @@ function createModal(location, locationID) {
     modalBody.innerHTML = markdown.makeHtml(location.description);
     modalContent.append(modalBody);
 
+    if (location.actions) {
+        var modalActions = document.createElement("div");
+        modalActions.setAttribute("class","btn-group-vertical");
+        location.actions.forEach(action => {
+            let modalActionButton = document.createElement("a");
+
+            if (!action.style) { action.style = "btn-primary" }
+            modalActionButton.setAttribute("class","btn rounded-0 " + action.style);
+
+            if (!action.target) { action.target = "_self" }
+            modalActionButton.setAttribute("target", action.target);
+
+            modalActionButton.setAttribute("href", action.href);
+            modalActionButton.innerHTML = action.name;
+            modalActions.append(modalActionButton);
+        });
+        modalContent.append(modalActions);
+    }
+
     let modalFooter = document.createElement("div");
     modalFooter.setAttribute("class","modal-footer");
     modalContent.append(modalFooter);
@@ -114,6 +133,7 @@ function createMarker(location, locationID) {
     let marker = new google.maps.Marker({
         map: map,
         animation: google.maps.Animation.DROP,
+        title: location.name,
         position: {
             lat: location.lat,
             lng: location.lng
@@ -121,7 +141,7 @@ function createMarker(location, locationID) {
     });
     marker.addListener("click", () => {
         modals[locationID].show();
-      });
+    });
 }
 
 
@@ -173,7 +193,7 @@ function loadSite() {
 function loadArea () {
     let locations = area.locations;
     var locationCounter = 1;
-    locations.forEach(function(location){
+    locations.forEach(location => {
         let locationID = 'location' + locationCounter
         createMarker(location, locationID);
         createModal(location, locationID);
