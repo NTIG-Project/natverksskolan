@@ -53,25 +53,46 @@ function loadAreaSettings(targetArea){
 
 function createModal(location, locationID) {
 
-    if (!location.style) { location.style = "bg-light text-dark"}
+    if (!location.style) { location.style = "bg-light text-dark border-white"}
 
     let modalContent = document.createElement("div");
-    modalContent.setAttribute("class","modal-content " + location.style);
+    modalContent.setAttribute("class","modal-content");
 
     let modalHeader = document.createElement("div");
-    modalHeader.setAttribute("class","modal-header");
-    modalHeader.innerHTML = "<h2>"+ location.name +"</h2><button type='button' class='btn "+ location.style +"' data-bs-dismiss='modal' aria-label='Close'><span class='material-icons'>close</span></button>";
+    modalHeader.setAttribute("class","modal-header " + location.style);
+        
+        let modalHeaderH = document.createElement("h2");
+        modalHeaderH.innerHTML = location.name;
+        modalHeader.append(modalHeaderH);
+
+        let modalHeaderButtons = document.createElement("div");
+        modalHeaderButtons.setAttribute("class","btn-group");
+
+        let modalHeaderLink = document.createElement("a");
+        modalHeaderLink.setAttribute("class","btn shadow-none border-0 " + location.style);
+        modalHeaderLink.setAttribute("href","?location="+ locationID);
+        modalHeaderLink.innerHTML = "<span class='material-icons'>link</span>";
+        modalHeaderButtons.append(modalHeaderLink);
+
+        let modalHeaderClose = document.createElement("a");
+        modalHeaderClose.setAttribute("class","btn shadow-none border-0 " + location.style);
+        modalHeaderClose.setAttribute("data-bs-dismiss","modal");
+        modalHeaderClose.setAttribute("aria-label","Close");
+        modalHeaderClose.innerHTML = "<span class='material-icons'>close</span>";
+        modalHeaderButtons.append(modalHeaderClose);
+
+        modalHeader.append(modalHeaderButtons);
     modalContent.append(modalHeader);
 
     if (location.image) {
         let modalImage = document.createElement("img");
-        modalImage.setAttribute("class","card-img-top");
+        modalImage.setAttribute("class","card-img-top rounded-0");
         modalImage.setAttribute("src", location.image);
         modalContent.append(modalImage);
     }
 
     let modalBody = document.createElement("div");
-    modalBody.setAttribute("class","modal-body");
+    modalBody.setAttribute("class","modal-body " + location.style);
     let markdown = new showdown.Converter();
     modalBody.innerHTML = markdown.makeHtml(location.description);
     modalContent.append(modalBody);
@@ -96,7 +117,7 @@ function createModal(location, locationID) {
     }
 
     let modalFooter = document.createElement("div");
-    modalFooter.setAttribute("class","modal-footer");
+    modalFooter.setAttribute("class","modal-footer " + location.style);
     modalContent.append(modalFooter);
 
     let modalDialog = document.createElement("div");
@@ -111,6 +132,11 @@ function createModal(location, locationID) {
     document.getElementsByTagName("body")[0].append(modal);
 
     modals[locationID] =  new bootstrap.Modal(document.getElementById(locationID));
+}
+
+
+function copyLink(locationID) {
+
 }
 
 

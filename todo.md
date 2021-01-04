@@ -10,6 +10,7 @@
 
 ## Modals
 
+* Kopiera länk till location
 
 ## Sidemeny / Footermeny?
 

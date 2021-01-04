@@ -9,12 +9,12 @@
             "lng":20.2631702,
             "name":"Placeholder Location",
             "description":"Lorem ipsum",
-            "style":"bg-dark text-light",
+            "style":"bg-dark text-light border-dark",
             "actions":[
                 {
                     "name":"Gör uppgift 1",
                     "href":"",
-                    "style":"btn-warning"
+                    "style":"btn-dark"
                 },
                 {
                     "name":"Gör uppgift 2",
@@ -27,18 +27,7 @@
             "lng":20.2631702,
             "name":"Placeholder Location 2",
             "description":"### Löksås ipsum \n Gör räv **tre icke tre** vid vemod, björnbär ännu annat tre om verkligen för, lax tid sin mot tid helt trevnadens. Enligt mot inom från dimmhöljd annat år brunsås, flera vidsträckt vemod kanske ännu. Om för denna nya söka därmed åker både ännu ordningens strand hans, gamla vidsträckt sjö hwila att söka verkligen enligt hela händer. Trevnadens göras kanske flera färdväg, omfångsrik hav kanske, upprätthållande hav sax. Ser äng göras att denna groda vi dag nya dunge, sorgliga därmed hav söka ta fram söka dimmhöljd, vidsträckt äng om är ännu ska groda upprätthållande. Vidsträckt strand hwila äng dag nu gör ta erfarenheter där ännu, därmed blev varit tid och brunsås tid bäckasiner plats, och själv sax bäckasiner tre helt hwila och hwila. Dunge hela ordningens samtidigt rot händer enligt strand inom, och ta hwila är bra tid hwila, vad är varit tidigare ingalunda stora upprätthållande. Som ser händer bäckasiner om plats vad, som samma nu omfångsrik år själv, när kunde är hav för. Blev göras vi hwila räv annat dag göras ordningens nu plats sax så hwila, gamla därmed att mot regn bäckasiner göras söka blivit sorgliga nya.",
-            "image": "https://www.microsoft.com/sv-se/microsoft-365/blog/wp-content/uploads/sites/58/2019/01/OfficeNews_365Mac-440x268.png",
-            "actions":[
-                {
-                    "name":"Gör uppgift 1",
-                    "href":"",
-                    "style":"btn-warning"
-                },
-                {
-                    "name":"Gör uppgift 2",
-                    "href":""
-                }
-            ]
+            "image": "https://www.microsoft.com/sv-se/microsoft-365/blog/wp-content/uploads/sites/58/2019/01/OfficeNews_365Mac-440x268.png"
         }
     ]
 }
