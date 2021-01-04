@@ -24,6 +24,10 @@ function loadSiteSettings(){
         if (this.readyState == 4 && this.status == 200) {
             site = JSON.parse(this.responseText);
             loaded.settings = true;
+
+            //Apply some settings
+            document.title = site.name;
+
         }
     };
     requestJSON.open("GET", "settings.json", true);

@@ -3,7 +3,6 @@
 ## Settings
 
 * Läs api-nyckel från settings.json
-* Sidnamn
 
 ## Markers
 
