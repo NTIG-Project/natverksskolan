@@ -26,7 +26,12 @@ function loadSiteSettings(){
             site = JSON.parse(this.responseText);
             loaded.settings = true;
 
-
+            if (!localStorage.getItem("area")) {
+                localStorage.setItem("area", site.area);
+            }
+            else {
+                site.area = localStorage.getItem("area");
+            }
 
         }
     };
@@ -45,6 +50,10 @@ function loadAreaSettings(targetArea){
             document.title = site.name +": "+ area.name;
             
         }
+        else if (this.readyState == 4 && this.status == 404) { //If area file does not exist try to reload to default settings
+            localStorage.removeItem("area");
+            location.reload();
+        }
     };
     requestJSON.open("GET", "areas/" + targetArea, true);
     requestJSON.send();
@@ -56,13 +65,10 @@ function loadAreaSettings(targetArea){
 
 function loadArea () {
     let locations = area.locations;
-    var locationCounter = 1;
     locations.forEach(location => {
-        let locationID = 'location' + locationCounter
-        createMarker(location, locationID);
-        createModal(location, locationID);
-        createCard(location, locationID);
-        locationCounter++;
+        createMarker(location);
+        createModal(location);
+        createCard(location);
     });
 }
 
@@ -100,9 +106,8 @@ function createFooterMenu() {
 
 }
 
-
-
-function createCard(location, locationID) {
+function createCard(location) {
+    var locationID = encodeURIComponent(location.name);
 
     if (!location.style) { location.style = "bg-light text-dark border-dark"};
 
@@ -131,7 +136,7 @@ function createCard(location, locationID) {
             height: 50,
             width: 200,
             seed: location.name,
-            cellSize: 15,
+            cellSize: 10,
             variance: 1,
         });
         cardImage.appendChild(pattern.toSVG());
@@ -153,7 +158,8 @@ function createCard(location, locationID) {
 // Modal functions
 //******************************************************************************
 
-function createModal(location, locationID) {
+function createModal(location) {
+    var locationID = encodeURIComponent(location.name);
 
     if (!location.style) { location.style = "bg-light text-dark border-white"}
 
@@ -172,7 +178,7 @@ function createModal(location, locationID) {
 
         let modalHeaderLink = document.createElement("a");
         modalHeaderLink.setAttribute("class","btn shadow-none border-0 " + location.style);
-        modalHeaderLink.setAttribute("href","?location="+ locationID);
+        modalHeaderLink.setAttribute("href","?area="+ site.area +"&location="+ locationID);
         modalHeaderLink.innerHTML = "<span class='material-icons'>link</span>";
         modalHeaderButtons.append(modalHeaderLink);
 
@@ -190,6 +196,21 @@ function createModal(location, locationID) {
         let modalImage = document.createElement("img");
         modalImage.setAttribute("class","modal-img card-img-top rounded-0");
         modalImage.setAttribute("src", location.image);
+        modalContent.append(modalImage);
+    }
+    else {
+        let modalImage = document.createElement("div");
+        modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
+
+        let pattern =trianglify({
+            height: 150,
+            width: 800,
+            seed: location.name,
+            cellSize: 15,
+            variance: 1,
+        });
+        modalImage.appendChild(pattern.toSVG());
+
         modalContent.append(modalImage);
     }
 
@@ -261,7 +282,9 @@ function loadMap() {
     });
 }
 
-function createMarker(location, locationID) {
+function createMarker(location) {
+    var locationID = encodeURIComponent(location.name);
+
     let marker = new google.maps.Marker({
         map: map,
         animation: google.maps.Animation.DROP,
@@ -290,6 +313,7 @@ function initSite() {
 
 
     url = new URLSearchParams(window.location.search);
+    if (url.get("area")) { localStorage.setItem("area", url.get("area"))};
 
     waitSite()
 }
@@ -321,7 +345,7 @@ function loadSite() {
 
     modals["spinner"].hide();
 
-    if (url.get("location")) { modals[url.get("location")].show() }
+    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() };
 
 }
 

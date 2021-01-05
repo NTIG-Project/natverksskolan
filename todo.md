@@ -13,10 +13,13 @@
 
 * Kopiera länk till location
 * Läsa in md.filer
+* färger istället för bilder
+* stäng av bilder
 
 ## Footer
 
-* Mindre och snyggare cards
+* färger istället för bilder
+* stäng av bilder
 
 ## Area
 
@@ -25,6 +28,6 @@
 ## Blandat
 
 * Snygga till globala variabler
-* GET för Area
 * Logotyp
 * Site icon
+* Töm area ur localstoreage på error

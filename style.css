@@ -12,6 +12,10 @@ main {
     width: 100%;
 }
 
+.modal-img-slim {
+    height: 150px;
+}
+
 #footer-menu-collapse {
     width: 100%;
 }
