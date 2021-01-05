@@ -67,6 +67,9 @@ function loadArea () {
 }
 
 function createFooterMenu() {
+
+    if (!site.style) { site.style = "bg-dark text-white border-dark"};
+
     let footerMenu = document.createElement("nav");
     footerMenu.setAttribute("class","navbar fixed-bottom justify-content-center "+ site.style);
 
@@ -97,26 +100,18 @@ function createFooterMenu() {
 
 }
 
+
+
 function createCard(location, locationID) {
 
-    if (!location.style) { location.style = "bg-light text-dark border-white"}
+    if (!location.style) { location.style = "bg-light text-dark border-dark"};
 
     let card = document.createElement("div");
-    card.setAttribute("class","card border-0"+ location.style);
+    card.setAttribute("class","card border-0 "+ location.style);
     card.onclick = function() {
         modals[locationID].show(); 
         menus.footer.hide();
     }
-
-
-
-    if (location.image) {
-        let cardImage= document.createElement("img");
-        cardImage.setAttribute("class","card-img-top rounded-top border-0");
-        cardImage.setAttribute("src", location.image);
-        card.append(cardImage);
-    }
-
 
     let cardBody = document.createElement("div");
     cardBody.setAttribute("class","card-body");
@@ -126,6 +121,26 @@ function createCard(location, locationID) {
     cardTitle.innerHTML = location.name;
     cardBody.append(cardTitle);
     card.append(cardBody);
+
+    let cardImage = document.createElement("div");
+    cardImage.setAttribute("class","card-image rounded-bottom");
+    
+
+    if (!location.image) {
+        let pattern =trianglify({
+            height: 50,
+            width: 200,
+            seed: location.name,
+            cellSize: 15,
+            variance: 1,
+        });
+        cardImage.appendChild(pattern.toSVG());
+    }
+    else {
+        cardImage.style.backgroundImage = "url("+ location.image +")";
+    }
+
+    card.append(cardImage);
 
     document.getElementById("footer-menu-container").append(card);
 

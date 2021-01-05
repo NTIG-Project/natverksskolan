@@ -16,7 +16,7 @@
 
 ## Footer
 
-* Cards
+* Mindre och snyggare cards
 
 ## Area
 
