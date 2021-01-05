@@ -131,7 +131,7 @@ function createCard(location) {
     cardImage.setAttribute("class","card-image rounded-bottom");
     
 
-    if (!location.image) {
+    if (location.image == "trianglify") {
         let pattern =trianglify({
             height: 50,
             width: 200,
@@ -141,8 +141,13 @@ function createCard(location) {
         });
         cardImage.appendChild(pattern.toSVG());
     }
-    else {
+    else if (location.image == "color") {
+        cardImage.style.backgroundColor = "#"+ checksumColor(location.name);
+    }
+    else if (location.image) {
         cardImage.style.backgroundImage = "url("+ location.image +")";
+    }
+    else {
     }
 
     card.append(cardImage);
@@ -151,6 +156,17 @@ function createCard(location) {
 
 }
 
+
+function checksumColor(s)
+{
+  var chk = 0x12345678;
+  var len = s.length;
+  for (var i = 0; i < len; i++) {
+      chk += (s.charCodeAt(i) * (i + 1));
+  }
+
+  return (chk & 0xffffff).toString(16);
+}
 
 
 
@@ -192,13 +208,7 @@ function createModal(location) {
         modalHeader.append(modalHeaderButtons);
     modalContent.append(modalHeader);
 
-    if (location.image) {
-        let modalImage = document.createElement("img");
-        modalImage.setAttribute("class","modal-img card-img-top rounded-0");
-        modalImage.setAttribute("src", location.image);
-        modalContent.append(modalImage);
-    }
-    else {
+    if (location.image == "trianglify") {
         let modalImage = document.createElement("div");
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
@@ -213,6 +223,24 @@ function createModal(location) {
 
         modalContent.append(modalImage);
     }
+    else if (location.image == "color") {
+        let modalImage = document.createElement("div");
+        modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
+
+        modalImage.style.backgroundColor = "#"+ checksumColor(location.name);
+        
+        modalContent.append(modalImage);
+    }
+    else if (location.image) {
+        let modalImage = document.createElement("img");
+        modalImage.setAttribute("class","modal-img card-img-top rounded-0");
+        modalImage.setAttribute("src", location.image);
+        modalContent.append(modalImage);
+    }
+    else {
+
+    }
+
 
     let modalBody = document.createElement("div");
     modalBody.setAttribute("class","modal-body " + location.style);

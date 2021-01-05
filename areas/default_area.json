@@ -9,6 +9,7 @@
             "lng":20.2631702,
             "name":"Placeholder Location",
             "description":"Lorem ipsum",
+            "image": "color",
             "actions":[
                 {
                     "name":"Gör uppgift 1",
