@@ -14,7 +14,9 @@
 * Kopiera länk till location
 * Läsa in md.filer
 
-## Sidemeny / Footermeny?
+## Footer
+
+* Cards
 
 ## Area
 
@@ -24,3 +26,5 @@
 
 * Snygga till globala variabler
 * GET för Area
+* Logotyp
+* Site icon

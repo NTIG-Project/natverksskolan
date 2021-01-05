@@ -9,6 +9,7 @@ var url;  // URL Get parameters
 
 var loaded = {google: false, settings: false, area: false}; // Help for asynchronous loading  
 var modals = {}; // Container for all site modals
+var menus = {}; // Container for all site menus
 
 
 
@@ -25,8 +26,7 @@ function loadSiteSettings(){
             site = JSON.parse(this.responseText);
             loaded.settings = true;
 
-            //Apply some settings
-            document.title = site.name;
+
 
         }
     };
@@ -40,11 +40,98 @@ function loadAreaSettings(targetArea){
         if (this.readyState == 4 && this.status == 200) {
             area = JSON.parse(this.responseText);
             loaded.area = true;
+
+            //Apply some settings
+            document.title = site.name +": "+ area.name;
+            
         }
     };
     requestJSON.open("GET", "areas/" + targetArea, true);
     requestJSON.send();
 }
+
+//******************************************************************************
+// Site builder functions
+//******************************************************************************
+
+function loadArea () {
+    let locations = area.locations;
+    var locationCounter = 1;
+    locations.forEach(location => {
+        let locationID = 'location' + locationCounter
+        createMarker(location, locationID);
+        createModal(location, locationID);
+        createCard(location, locationID);
+        locationCounter++;
+    });
+}
+
+function createFooterMenu() {
+    let footerMenu = document.createElement("nav");
+    footerMenu.setAttribute("class","navbar fixed-bottom justify-content-center "+ site.style);
+
+    let footerMenuToogleContainer = document.createElement("div");
+    footerMenuToogleContainer.setAttribute("class","container-fluid justify-content-center");
+    footerMenu.append(footerMenuToogleContainer);
+
+    let footerMenuToogleButton = document.createElement("button");
+    footerMenuToogleButton.setAttribute("class","border-0 shadow-none "+ site.style);
+    footerMenuToogleButton.setAttribute("onclick","menus.footer.toggle()");
+    footerMenuToogleButton.innerHTML = "<span class='material-icons'>menu</span></button>";
+    footerMenuToogleContainer.append(footerMenuToogleButton);
+
+    let footerMenuCollapse = document.createElement("div");
+    footerMenuCollapse.setAttribute("class","collapse");
+    footerMenuCollapse.setAttribute("id","footer-menu-collapse");
+    footerMenu.append(footerMenuCollapse);
+
+    let footerMenuCardContainer = document.createElement("div");
+    footerMenuCardContainer.setAttribute("class","container-fluid d-flex flex-row justify-content-center align-content-start flex-wrap");
+    footerMenuCardContainer.setAttribute("id","footer-menu-container");
+    footerMenuCollapse.append(footerMenuCardContainer);
+
+    let footer = document.getElementById("footer-wrapper");
+    footer.append(footerMenu);
+
+    menus.footer = new bootstrap.Collapse(footerMenuCollapse, { toggle: false });
+
+}
+
+function createCard(location, locationID) {
+
+    if (!location.style) { location.style = "bg-light text-dark border-white"}
+
+    let card = document.createElement("div");
+    card.setAttribute("class","card border-0"+ location.style);
+    card.onclick = function() {
+        modals[locationID].show(); 
+        menus.footer.hide();
+    }
+
+
+
+    if (location.image) {
+        let cardImage= document.createElement("img");
+        cardImage.setAttribute("class","card-img-top rounded-top border-0");
+        cardImage.setAttribute("src", location.image);
+        card.append(cardImage);
+    }
+
+
+    let cardBody = document.createElement("div");
+    cardBody.setAttribute("class","card-body");
+
+    let cardTitle = document.createElement("h5");
+    cardTitle.setAttribute("class","card-title");
+    cardTitle.innerHTML = location.name;
+    cardBody.append(cardTitle);
+    card.append(cardBody);
+
+    document.getElementById("footer-menu-container").append(card);
+
+}
+
+
 
 
 //******************************************************************************
@@ -86,7 +173,7 @@ function createModal(location, locationID) {
 
     if (location.image) {
         let modalImage = document.createElement("img");
-        modalImage.setAttribute("class","card-img-top rounded-0");
+        modalImage.setAttribute("class","modal-img card-img-top rounded-0");
         modalImage.setAttribute("src", location.image);
         modalContent.append(modalImage);
     }
@@ -124,7 +211,7 @@ function createModal(location, locationID) {
     modalDialog.setAttribute("class","modal-dialog modal-dialog-centered modal-lg");
     modalDialog.append(modalContent);
 
-    let modal = document.createElement("div");
+    let modal = document.createElement("article");
     modal.setAttribute("class","modal");
     modal.setAttribute("id",locationID);
     modal.append(modalDialog);
@@ -189,7 +276,6 @@ function initSite() {
 
     url = new URLSearchParams(window.location.search);
 
-
     waitSite()
 }
 
@@ -213,8 +299,10 @@ function waitSite() {
 }
 
 function loadSite() {
+    createFooterMenu();
     loadMap();
     loadArea();
+
 
     modals["spinner"].hide();
 
@@ -223,17 +311,3 @@ function loadSite() {
 }
 
 
-//******************************************************************************
-// Site builder functions
-//******************************************************************************
-
-function loadArea () {
-    let locations = area.locations;
-    var locationCounter = 1;
-    locations.forEach(location => {
-        let locationID = 'location' + locationCounter
-        createMarker(location, locationID);
-        createModal(location, locationID);
-        locationCounter++;
-    });
-}
