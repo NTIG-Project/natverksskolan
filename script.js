@@ -110,7 +110,7 @@ function createFooterMenu() {
     footerMenuCardContainer.setAttribute("id","footer-menu-container");
     footerMenuCollapse.append(footerMenuCardContainer);
 
-    let footer = document.getElementById("footer-wrapper");
+    let footer = document.querySelector("footer");
     footer.append(footerMenu);
 
     menus.footer = new bootstrap.Collapse(footerMenuCollapse, { toggle: false });
@@ -167,7 +167,7 @@ function createCard(location) {
 
     card.append(cardImage);
 
-    document.getElementById("footer-menu-container").append(card);
+    document.querySelector("#footer-menu-container").append(card);
 
 }
 
@@ -295,7 +295,7 @@ function createModal(location) {
     modal.setAttribute("id",locationID);
     modal.append(modalDialog);
                 
-    document.getElementsByTagName("body")[0].append(modal);
+    document.querySelector("body").append(modal);
 
     modals[locationID] =  new bootstrap.Modal(document.getElementById(locationID));
 }
@@ -317,7 +317,7 @@ function readyMap() {
 
 function loadMap() {
     let centerPoint = { lat: area.lat, lng: area.lng };
-    map = new google.maps.Map(document.getElementById("map-wrapper"), {
+    map = new google.maps.Map(document.querySelector("main"), {
         zoom: 15,
         center: centerPoint,
         mapTypeId: 'satellite',
@@ -349,7 +349,7 @@ function createMarker(location) {
 //******************************************************************************
 
 function initSite() {
-    modals.spinner =  new bootstrap.Modal(document.getElementById('spinner-modal'),{
+    modals.spinner =  new bootstrap.Modal(document.querySelector('#spinner-modal'),{
         backdrop:'static'
     });
     modals["spinner"].show();
