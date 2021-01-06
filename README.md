@@ -4,6 +4,18 @@ Webbverktyg för att publicera scenarion och uppgifter på en karta. Använder e
 
 Vidareutveckling av [https://github.com/KajSchmidt/natverksskolan]
 
+## Demo
+
+![Exempel 1](/examples/images/example1.png)
+
+![Exempel 2](/examples/images/example2.png)
+
+![Exempel 3](/examples/images/example3.png)
+
+### Nätverksskolan
+
+Systemet kan ses i aktiv användning på Nätverksskolan.
+
 ## Kom igång
 
 ### 1. Klona projektet
