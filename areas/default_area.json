@@ -7,8 +7,8 @@
         {
             "lat":63.8250952,
             "lng":20.2631702,
-            "name":"Exempelplats med color och style",
-            "description":"Lorem ipsum",
+            "name":"Exempelplats med beskrivning, color och style",
+            "description":"Löksås ipsum. Gör räv tre icke tre vid vemod, björnbär ännu annat tre om verkligen för.",
             "image": "color",
             "style":"bg-dark text-light border-light",
             "actions":[
@@ -16,6 +16,18 @@
                     "name":"Uppgift med style",
                     "href":"",
                     "style":"btn-success"
+                }
+            ]
+        },
+        {
+            "lat":63.8270952,
+            "lng":20.2671702,
+            "name":"Exempelplats utan bild eller beskrivning",
+            "description":"",
+            "actions":[
+                {
+                    "name":"Uppgift",
+                    "href":""
                 }
             ]
         },

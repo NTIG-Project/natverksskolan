@@ -1,5 +1,5 @@
 //******************************************************************************
-// Site Intialization
+// Global variables and Site Intialization
 //******************************************************************************
 
 var map; // Google Maps object, from API
@@ -7,13 +7,63 @@ var site; // Site settings object, from json
 var area; // Area settings object, from json
 var url;  // URL Get parameters
 
-var loaded = {google: false, settings: false, area: false}; // Help for asynchronous loading  
+var loaded = {google: false, settings: false, area: false, }; // Help for asynchronous loading  
 var modals = {}; // Container for all site modals
 var menus = {}; // Container for all site menus
 
 
 
 initSite();
+
+
+//******************************************************************************
+// Site initiation functions
+//******************************************************************************
+
+function initSite() {
+    modals.spinner =  new bootstrap.Modal(document.querySelector('#spinner-modal'),{
+        backdrop:'static'
+    });
+    modals["spinner"].show();
+
+
+    url = new URLSearchParams(window.location.search);
+    if (url.get("area")) { localStorage.setItem("area", url.get("area"))};
+
+    waitSite()
+}
+
+function waitSite() {
+
+    if (loaded.settings == false) {
+        loadSiteSettings();
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.area == false) {
+        loadAreaSettings(site.area);
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.google == false) {
+        window.setTimeout(waitSite, 100);
+    }
+    else {
+        loadSite();
+    }    
+
+}
+
+function loadSite() {
+    createFooterMenu();
+    loadMap();
+    loadArea();
+
+
+    modals["spinner"].hide();
+
+    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() };
+
+}
+
 
 //******************************************************************************
 // Settings functions
@@ -74,6 +124,7 @@ function loadAreaSettings(targetArea){
     requestJSON.open("GET", "areas/" + targetArea, true);
     requestJSON.send();
 }
+
 
 //******************************************************************************
 // Site builder functions
@@ -174,7 +225,6 @@ function createCard(location) {
 
 }
 
-
 function checksumColor(s)
 {
   var chk = 0x12345678;
@@ -185,7 +235,6 @@ function checksumColor(s)
 
   return (chk & 0xffffff).toString(16);
 }
-
 
 
 //******************************************************************************
@@ -322,8 +371,11 @@ function readyMap() {
 
 function loadMap() {
     let centerPoint = { lat: area.lat, lng: area.lng };
+    if (area.zoom) { var zoom = area.zoom }
+    else { zoom = 15 }
+
     map = new google.maps.Map(document.querySelector("main"), {
-        zoom: 15,
+        zoom: zoom,
         center: centerPoint,
         mapTypeId: 'satellite',
         disableDefaultUI: true
@@ -347,54 +399,5 @@ function createMarker(location) {
     });
 }
 
-
-
-//******************************************************************************
-// Site initiation functions
-//******************************************************************************
-
-function initSite() {
-    modals.spinner =  new bootstrap.Modal(document.querySelector('#spinner-modal'),{
-        backdrop:'static'
-    });
-    modals["spinner"].show();
-
-
-    url = new URLSearchParams(window.location.search);
-    if (url.get("area")) { localStorage.setItem("area", url.get("area"))};
-
-    waitSite()
-}
-
-function waitSite() {
-
-    if (loaded.settings == false) {
-        loadSiteSettings();
-        window.setTimeout(waitSite, 100);
-    }
-    else if (loaded.area == false) {
-        loadAreaSettings(site.area);
-        window.setTimeout(waitSite, 100);
-    }
-    else if (loaded.google == false) {
-        window.setTimeout(waitSite, 100);
-    }
-    else {
-        loadSite();
-    }    
-
-}
-
-function loadSite() {
-    createFooterMenu();
-    loadMap();
-    loadArea();
-
-
-    modals["spinner"].hide();
-
-    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() };
-
-}
 
 
