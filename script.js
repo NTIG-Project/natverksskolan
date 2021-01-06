@@ -118,7 +118,7 @@ function loadAreaSettings(targetArea){
         }
         else if (this.readyState == 4 && this.status == 404) { //If area file does not exist try to reload to default settings
             localStorage.removeItem("area");
-            location.reload();
+            location.assign("/");
         }
     };
     requestJSON.open("GET", "areas/" + targetArea, true);
