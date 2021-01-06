@@ -3,6 +3,7 @@
     "name":"Scenariokartan2",
     "area":"default_area.json",
     "style":"bg-dark text-light",
+    "default_style":"",
     "logo":"",
     "favicon":""
 

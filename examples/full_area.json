@@ -10,7 +10,6 @@
             "name":"Placeholder Location",
             "description":"Lorem ipsum",
             "image": "color",
-            "style":"bg-dark text-light border-light",
             "actions":[
                 {
                     "name":"Gör uppgift 1",
@@ -33,7 +32,6 @@
                 {
                     "name":"Gör uppgift 1",
                     "href":"",
-                    "style":"btn-dark"
                 },
                 {
                     "name":"Gör uppgift 2",

@@ -25,7 +25,7 @@ Vidareutveckling av [https://github.com/KajSchmidt/natverksskolan]
 **Valfria**
 
 - image (default: ) Ange en bild URL.
-- style (default: bg-light text-dark border-white) Sätt stilklasser från Bootstrap.
+- style (default: bg-light text-dark) Sätt stilklasser från Bootstrap.
 - actions (default: ) Array med knappar.
 
 **Planerade**

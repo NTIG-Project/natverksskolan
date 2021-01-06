@@ -125,7 +125,8 @@ function createFooterMenu() {
 function createCard(location) {
     var locationID = encodeURIComponent(location.name);
 
-    if (!location.style) { var style = "bg-light text-dark border-0"}
+    if (!location.style && site.default_style) { var style = site.default_style}
+    else if (!location.style) { var style = "bg-light text-dark border-0"}
     else { var style = location.style}
 
     let card = document.createElement("div");
@@ -194,7 +195,8 @@ function checksumColor(s)
 function createModal(location) {
     var locationID = encodeURIComponent(location.name);
 
-    if (!location.style) { var style = "bg-light text-dark"}
+    if (!location.style && site.default_style) { var style = site.default_style}
+    else if (!location.style) { var style = "bg-light text-dark"}
     else { var style = location.style}
 
     let modalContent = document.createElement("div");
