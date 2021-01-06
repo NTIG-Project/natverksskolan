@@ -29,6 +29,14 @@ function loadSiteSettings(){
             //Apply some settings
             if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; }
             
+            if (site.logo) {
+                let headerSiteLogo = document.createElement("img");
+                headerSiteLogo.setAttribute("id", "header-site-logo");
+                headerSiteLogo.setAttribute("src", site.logo);  
+                headerSiteLogo.setAttribute("class", "m-5"); 
+                document.querySelector("header").append(headerSiteLogo); 
+            }
+
             if (!localStorage.getItem("area")) {
                 localStorage.setItem("area", site.area);
             }

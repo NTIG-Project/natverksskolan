@@ -13,8 +13,6 @@
 
 * Kopiera länk till location
 * Läsa in md.filer
-* färger istället för bilder
-* stäng av bilder
 
 ## Footer
 
@@ -28,5 +26,7 @@
 
 * Snygga till globala variabler
 * Logotyp
-* Favicon
 * manifest.json (https://developers.google.com/web/tools/lighthouse)
+* Flytta över flera funktioner till querySelector() istälet för getElement
+* Kör trianglify från lokala filer
+* Ladda in ramverk vid behov?
