@@ -1,6 +1,5 @@
 {
-    "map_key":"AIzaSyAptvbbpRD_jyRKJF9hHuvYJER8OULfUyI",
+    "map_key":"YOUR_GOOGLE_MAPS_API_KEY",
     "name":"Scenariokartan",
     "area":"default_area.json"
-
 }

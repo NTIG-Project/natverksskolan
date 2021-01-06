@@ -1,0 +1,20 @@
+{
+    "name":"Umeås Butiker",
+    "lat":63.8256952,
+    "lng":20.2631702,
+    "locations":[
+        {
+            "name":"MVG Galleria",
+            "lat":63.8250952,
+            "lng":20.2631702,
+            "description":"1. Ladda ner instruktionerna. \n 2. Prata tillsammans. \n 3. Maila in era svar.",
+            "actions":[
+                {
+                    "name":"Ladda ner instruktionerna",
+                    "href":"https://binaries.templates.cdn.office.net/support/templates/sv-se/tf16412131_win32.dotx",
+                }
+
+            ]
+        }
+    ]
+}
