@@ -125,10 +125,11 @@ function createFooterMenu() {
 function createCard(location) {
     var locationID = encodeURIComponent(location.name);
 
-    if (!location.style) { location.style = "bg-light text-dark" }; 
+    if (!location.style) { var style = "bg-light text-dark border-0"}
+    else { var style = location.style}
 
     let card = document.createElement("div");
-    card.setAttribute("class","card border-0 "+ location.style);
+    card.setAttribute("class","card "+ style);
     card.onclick = function() {
         modals[locationID].show(); 
         menus.footer.hide();
@@ -193,13 +194,14 @@ function checksumColor(s)
 function createModal(location) {
     var locationID = encodeURIComponent(location.name);
 
-    if (!location.style) { location.style = "bg-light text-dark border-white"}
+    if (!location.style) { var style = "bg-light text-dark"}
+    else { var style = location.style}
 
     let modalContent = document.createElement("div");
     modalContent.setAttribute("class","modal-content");
 
     let modalHeader = document.createElement("div");
-    modalHeader.setAttribute("class","modal-header " + location.style);
+    modalHeader.setAttribute("class","modal-header " + style);
         
         let modalHeaderH = document.createElement("h2");
         modalHeaderH.innerHTML = location.name;
@@ -209,13 +211,13 @@ function createModal(location) {
         modalHeaderButtons.setAttribute("class","btn-group");
 
         let modalHeaderLink = document.createElement("a");
-        modalHeaderLink.setAttribute("class","btn shadow-none border-0 " + location.style);
+        modalHeaderLink.setAttribute("class","btn shadow-none border-0 " + style);
         modalHeaderLink.setAttribute("href","?area="+ site.area +"&location="+ locationID);
         modalHeaderLink.innerHTML = "<span class='material-icons'>link</span>";
         modalHeaderButtons.append(modalHeaderLink);
 
         let modalHeaderClose = document.createElement("a");
-        modalHeaderClose.setAttribute("class","btn shadow-none border-0 " + location.style);
+        modalHeaderClose.setAttribute("class","btn shadow-none border-0 " + style);
         modalHeaderClose.setAttribute("data-bs-dismiss","modal");
         modalHeaderClose.setAttribute("aria-label","Close");
         modalHeaderClose.innerHTML = "<span class='material-icons'>close</span>";
@@ -259,7 +261,7 @@ function createModal(location) {
 
 
     let modalBody = document.createElement("div");
-    modalBody.setAttribute("class","modal-body " + location.style);
+    modalBody.setAttribute("class","modal-body " + style);
     let markdown = new showdown.Converter();
     modalBody.innerHTML = markdown.makeHtml(location.description);
     modalContent.append(modalBody);
@@ -284,7 +286,7 @@ function createModal(location) {
     }
 
     let modalFooter = document.createElement("div");
-    modalFooter.setAttribute("class","modal-footer " + location.style);
+    modalFooter.setAttribute("class","modal-footer " + style);
     modalContent.append(modalFooter);
 
     let modalDialog = document.createElement("div");

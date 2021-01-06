@@ -26,3 +26,4 @@
 * Snygga till globala variabler
 * Kör trianglify från lokala filer
 * Ladda in ramverk vid behov?
+* Kommentera
