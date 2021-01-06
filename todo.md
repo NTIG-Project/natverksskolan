@@ -18,8 +18,7 @@
 
 ## Footer
 
-* färger istället för bilder
-* stäng av bilder
+* BUGG: default location.style verkar inte fungera på cards
 
 ## Area
 

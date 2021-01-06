@@ -106,10 +106,14 @@ function createFooterMenu() {
 
 }
 
+function createUserInterface() {
+
+}
+
 function createCard(location) {
     var locationID = encodeURIComponent(location.name);
 
-    if (!location.style) { location.style = "bg-light text-dark border-dark"};
+    if (!location.style) { location.style = "bg-light text-dark" }; 
 
     let card = document.createElement("div");
     card.setAttribute("class","card border-0 "+ location.style);
@@ -367,6 +371,7 @@ function waitSite() {
 
 function loadSite() {
     createFooterMenu();
+    //createUserInterface();
     loadMap();
     loadArea();
 
