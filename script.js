@@ -26,6 +26,9 @@ function loadSiteSettings(){
             site = JSON.parse(this.responseText);
             loaded.settings = true;
 
+            //Apply some settings
+            if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; }
+            
             if (!localStorage.getItem("area")) {
                 localStorage.setItem("area", site.area);
             }
