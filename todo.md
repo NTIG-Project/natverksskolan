@@ -28,5 +28,5 @@
 
 * Snygga till globala variabler
 * Logotyp
-* Site icon
-* Töm area ur localstoreage på error
+* Favicon
+* manifest.json (https://developers.google.com/web/tools/lighthouse)

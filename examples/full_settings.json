@@ -2,6 +2,8 @@
     "map_key":"AIzaSyAptvbbpRD_jyRKJF9hHuvYJER8OULfUyI",
     "name":"Scenariokartan2",
     "area":"default_area.json",
-    "style":"bg-dark text-light"
+    "style":"bg-dark text-light",
+    "logo":"",
+    "favicon":""
 
 }
