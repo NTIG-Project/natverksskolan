@@ -1,0 +1,52 @@
+{
+    "name":"",
+    "description": "",
+    "lat":,
+    "lng":,
+    "locations":[
+        {
+            "lat":,
+            "lng":,
+            "name":"",
+            "description":"",
+            "image": "",
+            "style":"",
+            "actions":[
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                },
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                }
+            ]
+        },
+        {
+            "lat":,
+            "lng":,
+            "name":"",
+            "description":"",
+            "image": "",
+            "style":"",
+            "actions":[
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                },
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                }
+            ]
+        }
+    ]
+}
