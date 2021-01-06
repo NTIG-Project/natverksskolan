@@ -27,6 +27,11 @@ function loadSiteSettings(){
             loaded.settings = true;
 
             //Apply some settings
+
+            let scriptGoogleApi = document.createElement("script");
+            scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=readyMap");
+            document.querySelector("body").append(scriptGoogleApi);
+
             if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; }
             
             if (site.logo) {
@@ -114,10 +119,6 @@ function createFooterMenu() {
     footer.append(footerMenu);
 
     menus.footer = new bootstrap.Collapse(footerMenuCollapse, { toggle: false });
-
-}
-
-function createUserInterface() {
 
 }
 
@@ -382,7 +383,6 @@ function waitSite() {
 
 function loadSite() {
     createFooterMenu();
-    //createUserInterface();
     loadMap();
     loadArea();
 

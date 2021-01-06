@@ -2,7 +2,6 @@
 
 ## Settings
 
-* Läs api-nyckel från settings.json
 * Site-färger
 
 ## Markers
