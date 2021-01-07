@@ -20,11 +20,17 @@ För att kunna jobba med systemet behövs en grundläggande förståelse för JS
 
 ### 1. Klona projektet
 
+Det snabbaste sättet att komma igång med din egen version av scenariokartan är att använda Githubs funktioner **Fork** och **Pages**, och den här guiden utgår från dem. Du kan även ladda ner filerna, redigera dem och lägga upp dem på en webbserver. 
+
+Se till att du har ett [konto på Github](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/signing-up-for-github) och klicka på knappen **Fork** uppe i högra hörnet på den här sidan.
+
+När du följt guiden så har du en egen kopia av systemet. Om du är intresserad kan du läsa mer om [forking](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo.)
+
 ### 2. Google Maps API Key
 
-För att använda Google Maps behövs en API-nyckel kopplad till ett debiteringkonto hos Google. Det är inte gratis att använda Google Maps men det ingår 28000 visningar per månad innan det börjar kosta något. Läs mer om vad det kostar på [https://cloud.google.com/maps-platform/pricing/sheet].
+För att använda Google Maps behövs en API-nyckel kopplad till ett debiteringkonto hos Google. Det är inte gratis att använda Google Maps men det ingår 28000 visningar per månad innan det börjar kosta något. Läs mer om vad det kostar på https://cloud.google.com/maps-platform/pricing/sheet.
 
-Följ instruktionerna på [https://developers.google.com/maps/gmp-get-started#procedures] för att skapa ett konto och en kopplad nyckel. Tänk på att sätta en begränsning på vilka domäner som kan använda nyckeln så att ingen annan kan använda din nyckel.
+Följ instruktionerna på https://developers.google.com/maps/gmp-get-started#procedures för att skapa ett konto och en kopplad nyckel. Tänk på att sätta en begränsning på vilka domäner som kan använda nyckeln så att ingen annan kan använda din nyckel.
 
 ### 3. Skapa settings.json
 
@@ -33,7 +39,7 @@ Följ instruktionerna på [https://developers.google.com/maps/gmp-get-started#pr
 
 #### Koncept Area
 
-* **area:** En area / område är en fil med ett antal markörer angivna på kartan och information för de punkterna.
+* **area:** En area / område är en fil med ett antal markörer angivna på kartan och information för de punkterna. Du kan välja om du vill ha en enda fil, flera som du växlar mellan i settings.json eller flera som du växlar mellan med hjälp av [URL-Parametrar](https://github.com/KajSchmidt/scenariokartan_platt/wiki/URL-parametrar). Ett sätt att använda detta är att ha olika områden för olika moment eller kurser istället för att ha flera olika sidor.
 
 Om du vill göra mer ingående inställningar kan du läsa mer i [wikin](https://github.com/KajSchmidt/scenariokartan_platt/wiki/settings.json).
 
@@ -44,14 +50,22 @@ Om du vill göra mer ingående inställningar kan du läsa mer i [wikin](https:/
 
 #### Koncept Location
 
-* **location:** En location / plats är en markör på kartan kopplad till ett informationsfönster.
-* **action:** En aktion / uppgift är en knapp med en länk till en fritt vald sida/fil/annat.
+* **location:** En location / plats är en markör på kartan kopplad till ett informationsfönster. En plats kan representera ett scenario / en uppgift eller en samlingsplats för flera uppgifter genom actions. Systemet med JSON är inte så enkelt att använda för långa texter så du kan välja om du vill skriva fullständiga instruktioner i beskrivningen eller istället länka till dokument med instruktioner.
+* **action:** En action / uppgift är en knapp med en länk till en fritt vald sida/fil/annat.
 
 **Viktigt att namnet på varje plats är unikt då det används för att generera interna och externa länkar till informationsrutor.**
 
 Om du vill göra mer ingående inställningar kan du läsa mer i [wikin](https://github.com/KajSchmidt/scenariokartan_platt/wiki/area.json).
 
 ### 5. Aktivera Github Pages
+
+Genom Github Pages kan du driftsätta en sida utan att behöva ha en egen server så länge den bara innehåller frontend-tekniker.
+
+1. Gå till ditt repository för din sida och klickar på **Settings**.
+2. Hitta rubriken **Github Pages** och klicka på knappen **None**
+3. Välj **main** i listan och klicka på **Save**
+4. När sidan har laddat om så går du tillbaka till rubriken **Github Pages** och nu kan du se adressen för din sida.
+5. Använd den adressen för att begränsa vilka sidor som kan använda din Google Maps API Key
 
 ## Inkluderade system
 
