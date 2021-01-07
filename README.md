@@ -45,7 +45,9 @@ Om du vill göra mer ingående inställningar kan du läsa mer i [wikin](https:/
 #### Koncept Location
 
 * **location:** En location / plats är en markör på kartan kopplad till ett informationsfönster.
-* **action:** En aktion / uppgift är en knapp med en länk till en fritt vald sida/fil/annat. 
+* **action:** En aktion / uppgift är en knapp med en länk till en fritt vald sida/fil/annat.
+
+**Viktigt att namnet på varje plats är unikt då det används för att generera interna och externa länkar till informationsrutor.**
 
 Om du vill göra mer ingående inställningar kan du läsa mer i [wikin](https://github.com/KajSchmidt/scenariokartan_platt/wiki/area.json).
 

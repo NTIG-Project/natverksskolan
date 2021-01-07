@@ -7,7 +7,7 @@ var site; // Site settings object, from json
 var area; // Area settings object, from json
 var url;  // URL Get parameters
 
-var loaded = {google: false, settings: false, area: false, }; // Help for asynchronous loading  
+var loaded = {google: false, settings: false, area: false, }; // Help for manage asynchronous loading of dependent files
 var modals = {}; // Container for all site modals
 var menus = {}; // Container for all site menus
 
