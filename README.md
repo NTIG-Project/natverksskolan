@@ -1,6 +1,6 @@
 # Scenariokartan (Platt)
 
-Webbverktyg för att publicera scenarion och uppgifter på en karta. Använder enbart front-end och flat-files för enkel driftsättning med Github Pages.
+Webbverktyg för att publicera scenarion och uppgifter på en karta. Den "platta" versionen använder enbart frontend-tekniker och flat-files-datahantering för enkel driftsättning med Github Pages. Det finns en mer utförlig version med fler funktioner baserad på backend-tekniker och databaser under utveckling.
 
 ## Exempel
 
@@ -28,12 +28,13 @@ För att kunna jobba med systemet behövs en grundläggande förståelse för JS
 
 ### 5. Aktivera Github Pages
 
-## Dependencies
+## Inkluderade system
 
-* Bootstrap 5
-* Google Maps API
-* Google Fonts
-* Trianglify
+* [Bootstrap 5](https://getbootstrap.com/)
+* [Google Maps API](https://developers.google.com/maps/documentation)
+* [Google Fonts](https://fonts.google.com/)
+* [Trianglify](https://github.com/qrohlf/trianglify)
+* [Showdown](https://github.com/showdownjs/showdown)
 
 ## Övrigt
 
