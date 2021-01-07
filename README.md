@@ -22,9 +22,32 @@ För att kunna jobba med systemet behövs en grundläggande förståelse för JS
 
 ### 2. Google Maps API Key
 
+För att använda Google Maps behövs en API-nyckel kopplad till ett debiteringkonto hos Google. Det är inte gratis att använda Google Maps men det ingår 28000 visningar per månad innan det börjar kosta något. Läs mer om vad det kostar på [https://cloud.google.com/maps-platform/pricing/sheet].
+
+Följ instruktionerna på [https://developers.google.com/maps/gmp-get-started#procedures] för att skapa ett konto och en kopplad nyckel. Tänk på att sätta en begränsning på vilka domäner som kan använda nyckeln så att ingen annan kan använda din nyckel.
+
 ### 3. Skapa settings.json
 
-### 4. Skapa area.json
+1. Byt namn på *template_settings.json* till *settings.json* eller skapa en *settings.json*.
+2. Redigera *settings.json* och skriv in din API-nyckel och namn på sidan, *"area"* kan lämnas som den är.
+
+#### Koncept Area
+
+* **area:** En area / område är en fil med ett antal markörer angivna på kartan och information för de punkterna.
+
+Om du vill göra mer ingående inställningar kan du läsa mer i [wikin](https://github.com/KajSchmidt/scenariokartan_platt/wiki/settings.json).
+
+### 4. Skapa default_area.json
+
+1. Byt namn på */areas/template_default_area.json* till *default_area.json* eller skapa en *default_area.json* i mappen *areas*. Din area-fil kan heta vad som helst så länge den ligger i mappen *area* och är angiven i *settings.json*.
+2. Redigera *default_area.json* med de platser och uppgifter du vill ha. Ett enkelt sätt att få fram latitud och longitud för en plats är att öppna [Google Maps](https://www.google.se/maps) och högerklicka på platsen, den första raden i menyn som kommer upp är latitud och longitud för den punkten.
+
+#### Koncept Location
+
+* **location:** En location / plats är en markör på kartan kopplad till ett informationsfönster.
+* **action:** En aktion / uppgift är en knapp med en länk till en fritt vald sida/fil/annat. 
+
+Om du vill göra mer ingående inställningar kan du läsa mer i [wikin](https://github.com/KajSchmidt/scenariokartan_platt/wiki/area.json).
 
 ### 5. Aktivera Github Pages
 

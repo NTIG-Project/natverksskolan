@@ -90,7 +90,7 @@ function loadSiteSettings(){
                 headerSiteLogo.setAttribute("id", "header-site-logo");
                 headerSiteLogo.setAttribute("src", site.logo);  
                 headerSiteLogo.setAttribute("class", "m-5"); 
-                document.querySelector("header").append(headerSiteLogo); 
+                document.querySelector("#header-column5").append(headerSiteLogo); 
             }
 
             if (!localStorage.getItem("area")) {
@@ -253,7 +253,7 @@ function createModal(location) {
     modalContent.setAttribute("class","modal-content");
 
     let modalHeader = document.createElement("div");
-    modalHeader.setAttribute("class","modal-header " + style);
+    modalHeader.setAttribute("class","modal-header align-items-start " + style);
         
         let modalHeaderH = document.createElement("h2");
         modalHeaderH.innerHTML = location.name;
@@ -264,8 +264,10 @@ function createModal(location) {
 
         let modalHeaderLink = document.createElement("a");
         modalHeaderLink.setAttribute("class","btn shadow-none border-0 " + style);
-        modalHeaderLink.setAttribute("href","?area="+ site.area +"&location="+ locationID);
-        modalHeaderLink.innerHTML = "<span class='material-icons'>link</span>";
+        modalHeaderLink.onclick = function(){
+            copyLink(locationID, this);
+        };
+        modalHeaderLink.innerHTML = "<span class='material-icons link-icon'>link</span>";
         modalHeaderButtons.append(modalHeaderLink);
 
         let modalHeaderClose = document.createElement("a");
@@ -356,7 +358,31 @@ function createModal(location) {
 }
 
 
-function copyLink(locationID) {
+function copyLink(locationID, linkButton) {
+    let locationLink = window.location.href.split('?')[0] +"?area="+ site.area +"&location="+ locationID;
+    let locationLinkInput = document.createElement("input");
+    locationLinkInput.setAttribute("id","location-link-input");
+    locationLinkInput.setAttribute("class","visually-hidden-focusable");
+    locationLinkInput.setAttribute("value",locationLink);
+
+    document.body.append(locationLinkInput);
+
+    locationLinkInput.select();
+    document.execCommand("copy");
+    locationLinkInput.remove()
+
+    let toolTip = new bootstrap.Tooltip(linkButton, {
+        title: "Adressen kopierad"
+    });
+
+    linkButton.querySelector(".link-icon").innerHTML = "check_box";
+    linkButton.querySelector(".link-icon").classList.add("text-success");
+    toolTip.show();
+    setTimeout(function(linkButton){
+        linkButton.querySelector(".link-icon").innerHTML = "link";
+        linkButton.querySelector(".link-icon").classList.remove("text-success");
+    }, 500, linkButton);
+
 
 }
 
