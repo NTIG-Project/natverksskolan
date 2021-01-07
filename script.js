@@ -7,7 +7,7 @@ var site; // Site settings object, from json
 var area; // Area settings object, from json
 var url;  // URL Get parameters
 
-var loaded = {google: false, settings: false, area: false, }; // Help for manage asynchronous loading of dependent files
+var loaded = {google: "none", settings: "none", area: "none", }; // Help for manage asynchronous loading of dependent files
 var modals = {}; // Container for all site modals
 var menus = {}; // Container for all site menus
 
@@ -37,15 +37,21 @@ function initSite() { // First function to run
 
 function waitSite() { // Structure for asynchronous loading
 
-    if (loaded.settings == false) {
+    if (loaded.settings == "none") {
         loadSiteSettings();
         window.setTimeout(waitSite, 100);
     }
-    else if (loaded.area == false) {
+    else if (loaded.settings == "loading" ) {
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.area == "none") {
         loadAreaSettings(site.area);
         window.setTimeout(waitSite, 100);
     }
-    else if (loaded.google == false) {
+    else if (loaded.area == "loading" ) {
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.google == "none" || loaded.google == "loading") {
         window.setTimeout(waitSite, 100);
     }
     else {
@@ -76,7 +82,7 @@ function loadSiteSettings(){ // Load settings.json as site
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             site = JSON.parse(this.responseText);
-            loaded.settings = true;
+            loaded.settings = "done";
 
             //Apply some settings
 
@@ -85,6 +91,7 @@ function loadSiteSettings(){ // Load settings.json as site
             scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=readyMap");
             scriptGoogleApi.setAttribute("defer",true);
             document.querySelector("body").append(scriptGoogleApi);
+            loaded.google = "loading";
 
             if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; } // Set Favicon
             
@@ -108,6 +115,7 @@ function loadSiteSettings(){ // Load settings.json as site
     };
     requestJSON.open("GET", "settings.json", true);
     requestJSON.send();
+    loaded.settings = "loading";
 }
 
 function loadAreaSettings(targetArea){ // Load area file as area
@@ -115,7 +123,7 @@ function loadAreaSettings(targetArea){ // Load area file as area
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             area = JSON.parse(this.responseText);
-            loaded.area = true;
+            loaded.area = "done";
 
             //Apply some settings
             document.title = site.name +": "+ area.name; // Set site title
@@ -128,6 +136,7 @@ function loadAreaSettings(targetArea){ // Load area file as area
     };
     requestJSON.open("GET", "areas/" + targetArea, true);
     requestJSON.send();
+    loaded.area = "loading";
 }
 
 
@@ -399,7 +408,7 @@ function copyLink(locationID, linkButton) { // Create direct link to modal and c
 //******************************************************************************
 
 function readyMap() { // Called as Google Maps API callback
-    loaded.google = true;
+    loaded.google = "done";
 }
 
 function loadMap() { // Create map
