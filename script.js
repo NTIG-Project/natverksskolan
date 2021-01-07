@@ -80,6 +80,7 @@ function loadSiteSettings(){
 
             let scriptGoogleApi = document.createElement("script");
             scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=readyMap");
+            scriptGoogleApi.setAttribute("defer",true);
             document.querySelector("body").append(scriptGoogleApi);
 
             if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; }
