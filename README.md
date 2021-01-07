@@ -77,4 +77,4 @@ Genom Github Pages kan du driftsätta en sida utan att behöva ha en egen server
 
 ## Övrigt
 
-Vidareutveckling av [https://github.com/KajSchmidt/natverksskolan]
+Nybearbetning av ideerna i [https://github.com/KajSchmidt/natverksskolan]
