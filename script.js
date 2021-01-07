@@ -20,20 +20,22 @@ initSite();
 // Site initiation functions
 //******************************************************************************
 
-function initSite() {
+function initSite() { // First function to run
+
+    // Throw up a loadingscreen, will seldom be seen
     modals.spinner =  new bootstrap.Modal(document.querySelector('#spinner-modal'),{
         backdrop:'static'
     });
     modals["spinner"].show();
 
 
-    url = new URLSearchParams(window.location.search);
-    if (url.get("area")) { localStorage.setItem("area", url.get("area"))};
+    url = new URLSearchParams(window.location.search); // Load URL parameteras
+    if (url.get("area")) { localStorage.setItem("area", url.get("area"))}; // Change area if ?area=
 
     waitSite()
 }
 
-function waitSite() {
+function waitSite() { // Structure for asynchronous loading
 
     if (loaded.settings == false) {
         loadSiteSettings();
@@ -52,15 +54,15 @@ function waitSite() {
 
 }
 
-function loadSite() {
+function loadSite() { // Build site
     createFooterMenu();
     loadMap();
     loadArea();
 
 
-    modals["spinner"].hide();
+    modals["spinner"].hide(); // If we get this far it's time to close the loading screen
 
-    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() };
+    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() }; // Show modal if ?location=
 
 }
 
@@ -69,7 +71,7 @@ function loadSite() {
 // Settings functions
 //******************************************************************************
 
-function loadSiteSettings(){
+function loadSiteSettings(){ // Load settings.json as site
     var requestJSON = new XMLHttpRequest();
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -78,14 +80,15 @@ function loadSiteSettings(){
 
             //Apply some settings
 
+            // Load Google Maps API
             let scriptGoogleApi = document.createElement("script");
             scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=readyMap");
             scriptGoogleApi.setAttribute("defer",true);
             document.querySelector("body").append(scriptGoogleApi);
 
-            if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; }
+            if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; } // Set Favicon
             
-            if (site.logo) {
+            if (site.logo) { // Set site logo
                 let headerSiteLogo = document.createElement("img");
                 headerSiteLogo.setAttribute("id", "header-site-logo");
                 headerSiteLogo.setAttribute("src", site.logo);  
@@ -93,6 +96,7 @@ function loadSiteSettings(){
                 document.querySelector("#header-column5").append(headerSiteLogo); 
             }
 
+            // Check for saved area
             if (!localStorage.getItem("area")) {
                 localStorage.setItem("area", site.area);
             }
@@ -106,7 +110,7 @@ function loadSiteSettings(){
     requestJSON.send();
 }
 
-function loadAreaSettings(targetArea){
+function loadAreaSettings(targetArea){ // Load area file as area
     var requestJSON = new XMLHttpRequest();
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -114,7 +118,7 @@ function loadAreaSettings(targetArea){
             loaded.area = true;
 
             //Apply some settings
-            document.title = site.name +": "+ area.name;
+            document.title = site.name +": "+ area.name; // Set site title
             
         }
         else if (this.readyState == 4 && this.status == 404) { //If area file does not exist try to reload to default settings
@@ -131,7 +135,7 @@ function loadAreaSettings(targetArea){
 // Site builder functions
 //******************************************************************************
 
-function loadArea () {
+function loadArea () { // Walk through area object and create everything connected to locations
     let locations = area.locations;
     locations.forEach(location => {
         createMarker(location);
@@ -140,7 +144,7 @@ function loadArea () {
     });
 }
 
-function createFooterMenu() {
+function createFooterMenu() { // Build footer menu to contain location cards
 
     if (!site.style) { site.style = "bg-dark text-white border-dark"};
 
@@ -174,16 +178,17 @@ function createFooterMenu() {
 
 }
 
-function createCard(location) {
-    var locationID = encodeURIComponent(location.name);
+function createCard(location) { // Build a location card in footer menu
+    var locationID = encodeURIComponent(location.name); // Create string from name that can be used as ID
 
+    // Hardcoded default style / settings.json default_style / location style
     if (!location.style && site.default_style) { var style = site.default_style}
     else if (!location.style) { var style = "bg-light text-dark border-0"}
     else { var style = location.style}
 
     let card = document.createElement("div");
     card.setAttribute("class","card "+ style);
-    card.onclick = function() {
+    card.onclick = function() { // onClick event to open modal and close menu
         modals[locationID].show(); 
         menus.footer.hide();
     }
@@ -201,7 +206,7 @@ function createCard(location) {
     cardImage.setAttribute("class","card-image rounded-bottom");
     
 
-    if (location.image == "trianglify") {
+    if (location.image == "trianglify") { // Create trianglify image from location name
         let pattern =trianglify({
             height: 50,
             width: 200,
@@ -211,13 +216,13 @@ function createCard(location) {
         });
         cardImage.appendChild(pattern.toSVG());
     }
-    else if (location.image == "color") {
+    else if (location.image == "color") { // Apply color generated from location name
         cardImage.style.backgroundColor = "#"+ checksumColor(location.name);
     }
-    else if (location.image) {
+    else if (location.image) { // Apply image from area object
         cardImage.style.backgroundImage = "url("+ location.image +")";
     }
-    else {
+    else { // Image disabled
     }
 
     card.append(cardImage);
@@ -226,8 +231,7 @@ function createCard(location) {
 
 }
 
-function checksumColor(s)
-{
+function checksumColor(s) { // Take string and return colorcode
   var chk = 0x12345678;
   var len = s.length;
   for (var i = 0; i < len; i++) {
@@ -242,9 +246,10 @@ function checksumColor(s)
 // Modal functions
 //******************************************************************************
 
-function createModal(location) {
-    var locationID = encodeURIComponent(location.name);
+function createModal(location) { // Build a location modal in body
+    var locationID = encodeURIComponent(location.name); // Create string from name that can be used as ID
 
+    // Hardcoded default style / settings.json default_style / location style
     if (!location.style && site.default_style) { var style = site.default_style}
     else if (!location.style) { var style = "bg-light text-dark"}
     else { var style = location.style}
@@ -265,7 +270,7 @@ function createModal(location) {
         let modalHeaderLink = document.createElement("a");
         modalHeaderLink.setAttribute("class","btn shadow-none border-0 " + style);
         modalHeaderLink.onclick = function(){
-            copyLink(locationID, this);
+            copyLink(locationID, this); // Copy direct link to clipboard
         };
         modalHeaderLink.innerHTML = "<span class='material-icons link-icon'>link</span>";
         modalHeaderButtons.append(modalHeaderLink);
@@ -280,7 +285,7 @@ function createModal(location) {
         modalHeader.append(modalHeaderButtons);
     modalContent.append(modalHeader);
 
-    if (location.image == "trianglify") {
+    if (location.image == "trianglify") { // Create trianglify image from location name
         let modalImage = document.createElement("div");
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
@@ -295,7 +300,7 @@ function createModal(location) {
 
         modalContent.append(modalImage);
     }
-    else if (location.image == "color") {
+    else if (location.image == "color") { // Apply color generated from location name
         let modalImage = document.createElement("div");
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
@@ -303,23 +308,25 @@ function createModal(location) {
         
         modalContent.append(modalImage);
     }
-    else if (location.image) {
+    else if (location.image) { // Apply image from area object
         let modalImage = document.createElement("img");
         modalImage.setAttribute("class","modal-img card-img-top rounded-0");
         modalImage.setAttribute("src", location.image);
         modalContent.append(modalImage);
     }
-    else {
-
+    else { // Image disabled
     }
 
 
     let modalBody = document.createElement("div");
     modalBody.setAttribute("class","modal-body " + style);
+
+    // Evaluate markdown code to html
     let markdown = new showdown.Converter();
     modalBody.innerHTML = markdown.makeHtml(location.description);
     modalContent.append(modalBody);
 
+    // Walk through actions for location and create buttons
     if (location.actions) {
         var modalActions = document.createElement("div");
         modalActions.setAttribute("class","btn-group-vertical");
@@ -358,7 +365,7 @@ function createModal(location) {
 }
 
 
-function copyLink(locationID, linkButton) {
+function copyLink(locationID, linkButton) { // Create direct link to modal and copy to clipboard
     let locationLink = window.location.href.split('?')[0] +"?area="+ site.area +"&location="+ locationID;
     let locationLinkInput = document.createElement("input");
     locationLinkInput.setAttribute("id","location-link-input");
@@ -391,12 +398,11 @@ function copyLink(locationID, linkButton) {
 // Map functions
 //******************************************************************************
 
-// readyMap() called from Google Maps API callback
-function readyMap() {
+function readyMap() { // Called as Google Maps API callback
     loaded.google = true;
 }
 
-function loadMap() {
+function loadMap() { // Create map
     let centerPoint = { lat: area.lat, lng: area.lng };
     if (area.zoom) { var zoom = area.zoom }
     else { zoom = 15 }
@@ -409,7 +415,7 @@ function loadMap() {
     });
 }
 
-function createMarker(location) {
+function createMarker(location) { // Create a location marker on map
     var locationID = encodeURIComponent(location.name);
 
     let marker = new google.maps.Marker({
