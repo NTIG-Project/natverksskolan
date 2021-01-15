@@ -2,7 +2,6 @@
 
 Webbverktyg för att publicera scenarion och uppgifter på en karta. Den "platta" versionen använder enbart frontend-tekniker och flat-files-datahantering för enkel driftsättning med Github Pages. Det finns en mer utförlig version med fler funktioner baserad på backend-tekniker och databaser under utveckling.
 
-
 ## Exempel
 
 ![Exempel 1](/examples/images/example1.png)
@@ -79,5 +78,3 @@ Genom Github Pages kan du driftsätta en sida utan att behöva ha en egen server
 ## Övrigt
 
 Nybearbetning av ideerna i [https://github.com/KajSchmidt/natverksskolan]
-=======
-
