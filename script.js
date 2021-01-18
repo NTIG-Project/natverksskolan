@@ -198,7 +198,7 @@ function createCard(location) { // Build a location card in footer menu
         cardImage.appendChild(pattern.toSVG());
     }
     else if (location.image == "color") { // Apply color generated from location name
-        cardImage.style.backgroundColor = "#"+ checksumColor(location.name);
+        cardImage.style.backgroundColor = "#"+ getColor(location.name)[0];
     }
     else if (location.image) { // Apply image from area object
         cardImage.style.backgroundImage = "url("+ location.image +")";
@@ -212,14 +212,25 @@ function createCard(location) { // Build a location card in footer menu
 
 }
 
-function checksumColor(s) { // Take string and return colorcode
-  var chk = 0x12345678;
+function getColor(s, scheme) { // Take string and return colorcode
+  var chk = 0x111111;
   var len = s.length;
   for (var i = 0; i < len; i++) {
-      chk += (s.charCodeAt(i) * (i + 1));
+      chk += (s.charCodeAt(i) * (i + 12345));
   }
 
-  return (chk & 0xffffff).toString(16);
+  var baseColor = (chk & 0xffffff).toString(16);
+
+  var colors = [baseColor] 
+
+  if (scheme) {
+      let colorScheme = new ColorScheme;
+      colorScheme.from_hex(baseColor);
+      colors = colorScheme.colors()
+
+  }
+
+  return colors;
 }
 
 
@@ -285,7 +296,7 @@ function createModal(location) { // Build a location modal in body
         let modalImage = document.createElement("div");
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
-        modalImage.style.backgroundColor = "#"+ checksumColor(location.name);
+        modalImage.style.backgroundColor = "#"+ getColor(location.name)[0];
         
         modalContent.append(modalImage);
     }
