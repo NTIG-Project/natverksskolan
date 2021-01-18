@@ -32,44 +32,9 @@ function initSite() { // First function to run
     url = new URLSearchParams(window.location.search); // Load URL parameteras
     if (url.get("area")) { localStorage.setItem("area", url.get("area"))}; // Change area if ?area=
 
-    waitSite()
-}
 
-function waitSite() { // Structure for asynchronous loading
-
-    if (loaded.settings == "none") {
-        loadSiteSettings();
-        window.setTimeout(waitSite, 100);
-    }
-    else if (loaded.settings == "loading" ) {
-        window.setTimeout(waitSite, 100);
-    }
-    else if (loaded.area == "none") {
-        loadAreaSettings(site.area);
-        window.setTimeout(waitSite, 100);
-    }
-    else if (loaded.area == "loading" ) {
-        window.setTimeout(waitSite, 100);
-    }
-    else if (loaded.google == "none" || loaded.google == "loading") {
-        window.setTimeout(waitSite, 100);
-    }
-    else {
-        loadSite();
-    }    
-
-}
-
-function loadSite() { // Build site
-    createFooterMenu();
-    loadMap();
-    loadArea();
-
-
-    modals["spinner"].hide(); // If we get this far it's time to close the loading screen
-
-    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() }; // Show modal if ?location=
-
+    //Start the loading sequence loadSiteSettings -> Google Maps API -> loadAreaSettings -> buildSite
+    loadSiteSettings();
 }
 
 
@@ -77,18 +42,16 @@ function loadSite() { // Build site
 // Settings functions
 //******************************************************************************
 
-function loadSiteSettings(){ // Load settings.json as site
+function loadSiteSettings(){ // Load settings.json as site, called from initSite()
     var requestJSON = new XMLHttpRequest();
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             site = JSON.parse(this.responseText);
-            loaded.settings = "done";
-
             //Apply some settings
 
             // Load Google Maps API
             let scriptGoogleApi = document.createElement("script");
-            scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=readyMap");
+            scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=loadAreaSettings");
             scriptGoogleApi.setAttribute("defer",true);
             document.querySelector("body").append(scriptGoogleApi);
             loaded.google = "loading";
@@ -118,23 +81,24 @@ function loadSiteSettings(){ // Load settings.json as site
     loaded.settings = "loading";
 }
 
-function loadAreaSettings(targetArea){ // Load area file as area
+function loadAreaSettings(){ // Load area file as area, called from Google Maps API Callback
     var requestJSON = new XMLHttpRequest();
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             area = JSON.parse(this.responseText);
-            loaded.area = "done";
 
             //Apply some settings
             document.title = site.name +": "+ area.name; // Set site title
-            
+
+            // Everything loades, build site
+            buildSite()
         }
         else if (this.readyState == 4 && this.status == 404) { //If area file does not exist try to reload to default settings
             localStorage.removeItem("area");
             location.assign("/");
         }
     };
-    requestJSON.open("GET", "areas/" + targetArea, true);
+    requestJSON.open("GET", "areas/" + site.area, true);
     requestJSON.send();
     loaded.area = "loading";
 }
@@ -143,6 +107,18 @@ function loadAreaSettings(targetArea){ // Load area file as area
 //******************************************************************************
 // Site builder functions
 //******************************************************************************
+
+function buildSite() { // Build site
+    createFooterMenu();
+    loadMap();
+    loadArea();
+
+
+    modals["spinner"].hide(); // If we get this far it's time to close the loading screen
+
+    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() }; // Show modal if ?location=
+
+}
 
 function loadArea () { // Walk through area object and create everything connected to locations
     let locations = area.locations;
