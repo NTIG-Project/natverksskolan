@@ -7,7 +7,6 @@ var site; // Site settings object, from json
 var area; // Area settings object, from json
 var url;  // URL Get parameters
 
-var loaded = {google: "none", settings: "none", area: "none", }; // Help for manage asynchronous loading of dependent files
 var modals = {}; // Container for all site modals
 var menus = {}; // Container for all site menus
 
@@ -54,7 +53,6 @@ function loadSiteSettings(){ // Load settings.json as site, called from initSite
             scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=loadAreaSettings");
             scriptGoogleApi.setAttribute("defer",true);
             document.querySelector("body").append(scriptGoogleApi);
-            loaded.google = "loading";
 
             if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; } // Set Favicon
             
@@ -78,7 +76,6 @@ function loadSiteSettings(){ // Load settings.json as site, called from initSite
     };
     requestJSON.open("GET", "settings.json", true);
     requestJSON.send();
-    loaded.settings = "loading";
 }
 
 function loadAreaSettings(){ // Load area file as area, called from Google Maps API Callback
@@ -100,7 +97,6 @@ function loadAreaSettings(){ // Load area file as area, called from Google Maps 
     };
     requestJSON.open("GET", "areas/" + site.area, true);
     requestJSON.send();
-    loaded.area = "loading";
 }
 
 
@@ -382,10 +378,6 @@ function copyLink(locationID, linkButton) { // Create direct link to modal and c
 //******************************************************************************
 // Map functions
 //******************************************************************************
-
-function readyMap() { // Called as Google Maps API callback
-    loaded.google = "done";
-}
 
 function loadMap() { // Create map
     let centerPoint = { lat: area.latlng[0], lng: area.latlng[1] };
