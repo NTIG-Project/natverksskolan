@@ -412,7 +412,7 @@ function readyMap() { // Called as Google Maps API callback
 }
 
 function loadMap() { // Create map
-    let centerPoint = { lat: area.lat, lng: area.lng };
+    let centerPoint = { lat: area.latlng[0], lng: area.latlng[1] };
     if (area.zoom) { var zoom = area.zoom }
     else { zoom = 15 }
 
@@ -432,8 +432,8 @@ function createMarker(location) { // Create a location marker on map
         animation: google.maps.Animation.DROP,
         title: location.name,
         position: {
-            lat: location.lat,
-            lng: location.lng
+            lat: location.latlng[0],
+            lng: location.latlng[1]
         }
     });
     marker.addListener("click", () => {
