@@ -198,7 +198,7 @@ function createCard(location) { // Build a location card in footer menu
         cardImage.appendChild(pattern.toSVG());
     }
     else if (location.image == "color") { // Apply color generated from location name
-        cardImage.style.backgroundColor = "#"+ getColor(location.name)[0];
+        cardImage.style.backgroundColor = "#"+ getColor(locationID)[0];
     }
     else if (location.image) { // Apply image from area object
         cardImage.style.backgroundImage = "url("+ location.image +")";
@@ -232,11 +232,6 @@ function getColor(s, scheme) { // Take string and return colorcode
 
   return colors;
 }
-
-
-//******************************************************************************
-// Modal functions
-//******************************************************************************
 
 function createModal(location) { // Build a location modal in body
     var locationID = encodeURIComponent(location.name); // Create string from name that can be used as ID
@@ -296,7 +291,7 @@ function createModal(location) { // Build a location modal in body
         let modalImage = document.createElement("div");
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
-        modalImage.style.backgroundColor = "#"+ getColor(location.name)[0];
+        modalImage.style.backgroundColor = "#"+ getColor(locationID)[0];
         
         modalContent.append(modalImage);
     }
@@ -355,7 +350,6 @@ function createModal(location) { // Build a location modal in body
 
     modals[locationID] =  new bootstrap.Modal(document.getElementById(locationID));
 }
-
 
 function copyLink(locationID, linkButton) { // Create direct link to modal and copy to clipboard
     let locationLink = window.location.href.split('?')[0] +"?area="+ site.area +"&location="+ locationID;
