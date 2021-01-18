@@ -226,7 +226,7 @@ function getColor(s, scheme) { // Take string and return colorcode
   if (scheme) {
       let colorScheme = new ColorScheme;
       colorScheme.from_hex(baseColor);
-      colors = colorScheme.colors()
+      colors = colors.concat(colorScheme.colors());
 
   }
 
