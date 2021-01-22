@@ -105,7 +105,22 @@ function loadAreaSettings(){ // Load area file as area, called from Google Maps 
 //******************************************************************************
 
 function buildSite() { // Build site
-    createFooterMenu();
+    buildFooterMenu();
+
+    if (site.available_areas) {
+        if (!site.style) { site.style = "bg-dark text-white border-dark"};
+        var selector = {"name":"Byt område",
+                        "description":"",
+                        "style":site.style,
+                        "actions":[]};
+
+        site.available_areas.forEach(selection => {
+            selector.actions.push({"name":selection.name,"href":"?area="+ selection.file});
+        });
+        createModal(selector);
+        createCard(selector);
+    }
+
     loadMap();
     loadArea();
 
@@ -125,7 +140,7 @@ function loadArea () { // Walk through area object and create everything connect
     });
 }
 
-function createFooterMenu() { // Build footer menu to contain location cards
+function buildFooterMenu() { // Build footer menu to contain location cards
 
     if (!site.style) { site.style = "bg-dark text-white border-dark"};
 
@@ -212,27 +227,6 @@ function createCard(location) { // Build a location card in footer menu
 
 }
 
-function getColor(s, scheme) { // Take string and return colorcode
-  var chk = 0x111111;
-  var len = s.length;
-  for (var i = 0; i < len; i++) {
-      chk += (s.charCodeAt(i) * (i + 12345));
-  }
-
-  var baseColor = (chk & 0xffffff).toString(16);
-
-  var colors = [baseColor] 
-
-  if (scheme) {
-      let colorScheme = new ColorScheme;
-      colorScheme.from_hex(baseColor);
-      colors = colors.concat(colorScheme.colors());
-
-  }
-
-  return colors;
-}
-
 function createModal(location) { // Build a location modal in body
     var locationID = encodeURIComponent(location.name); // Create string from name that can be used as ID
 
@@ -316,7 +310,8 @@ function createModal(location) { // Build a location modal in body
 
 
     let modalBody = document.createElement("div");
-    modalBody.setAttribute("class","modal-body " + style);
+    modalBody.setAttribute("class","modal-body"); //Keep body of modal always white
+    //modalBody.setAttribute("class","modal-body " + style);
 
     // Evaluate markdown code to html
     let markdown = new showdown.Converter();
@@ -425,4 +420,27 @@ function createMarker(location) { // Create a location marker on map
 }
 
 
+//******************************************************************************
+// Helper functions
+//******************************************************************************
 
+function getColor(s, scheme) { // Take string and return colorcode
+    var chk = 0x111111;
+    var len = s.length;
+    for (var i = 0; i < len; i++) {
+        chk += (s.charCodeAt(i) * (i + 12345));
+    }
+  
+    var baseColor = (chk & 0xffffff).toString(16);
+  
+    var colors = [baseColor] 
+  
+    if (scheme) {
+        let colorScheme = new ColorScheme;
+        colorScheme.from_hex(baseColor);
+        colors = colors.concat(colorScheme.colors());
+  
+    }
+  
+    return colors;
+  }
