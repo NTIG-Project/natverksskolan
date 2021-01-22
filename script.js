@@ -277,7 +277,7 @@ function createModal(location) { // Build a location modal in body
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
         let pattern =trianglify({
-            height: 150,
+            height: 200,
             width: 800,
             seed: location.name,
             cellSize: 15,
@@ -296,13 +296,23 @@ function createModal(location) { // Build a location modal in body
         modalContent.append(modalImage);
     }
     else if (location.image) { // Apply image from area object
-        let modalImage = document.createElement("img");
-        modalImage.setAttribute("class","modal-img card-img-top rounded-0");
-        modalImage.setAttribute("src", location.image);
+        let modalImage = document.createElement("div");
+        modalImage.setAttribute("class","modal-img modal-img-slim modal-img rounded-0");
+        modalImage.style.backgroundImage = "url("+ location.image +")";
         modalContent.append(modalImage);
+
+        if (location.attribution) {
+            let modalImageAttribution = document.createElement("a");
+            modalImageAttribution.setAttribute("class","image-attribution");
+            modalImageAttribution.setAttribute("target","_blank");
+            modalImageAttribution.setAttribute("href",location.attribution[1]);
+            modalImageAttribution.innerHTML = location.attribution[0];
+            modalImage.append(modalImageAttribution);
+        }
     }
     else { // Image disabled
     }
+
 
 
     let modalBody = document.createElement("div");
