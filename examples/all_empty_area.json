@@ -1,16 +1,15 @@
 {
     "name":"",
     "description": "",
-    "lat":,
-    "lng":,
+    "latlng":,
     "zoom":,
     "locations":[
         {
-            "lat":,
-            "lng":,
+            "latlng":,
             "name":"",
             "description":"",
             "image": "",
+            "attribution":["",""],
             "style":"",
             "actions":[
                 {
@@ -28,11 +27,11 @@
             ]
         },
         {
-            "lat":,
-            "lng":,
+            "latlng":,
             "name":"",
             "description":"",
             "image": "",
+            "attribution":["",""],
             "style":"",
             "actions":[
                 {
