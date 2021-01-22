@@ -110,7 +110,6 @@ function buildSite() { // Build site
     if (site.available_areas) {
         if (!site.style) { site.style = "bg-dark text-white border-dark"};
         var selector = {"name":"Byt område",
-                        "description":"",
                         "style":site.style,
                         "actions":[]};
 
@@ -308,15 +307,17 @@ function createModal(location) { // Build a location modal in body
     }
 
 
+    if (location.description) {
+        let modalBody = document.createElement("div");
+        modalBody.setAttribute("class","modal-body"); //Keep body of modal always white
+        //modalBody.setAttribute("class","modal-body " + style);
+    
+        // Evaluate markdown code to html
+        let markdown = new showdown.Converter();
+        modalBody.innerHTML = markdown.makeHtml(location.description);
+        modalContent.append(modalBody);
+    }
 
-    let modalBody = document.createElement("div");
-    modalBody.setAttribute("class","modal-body"); //Keep body of modal always white
-    //modalBody.setAttribute("class","modal-body " + style);
-
-    // Evaluate markdown code to html
-    let markdown = new showdown.Converter();
-    modalBody.innerHTML = markdown.makeHtml(location.description);
-    modalContent.append(modalBody);
 
     // Walk through actions for location and create buttons
     if (location.actions) {
