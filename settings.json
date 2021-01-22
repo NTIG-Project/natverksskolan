@@ -1,6 +1,0 @@
-{
-    "map_key":"AIzaSyAptvbbpRD_jyRKJF9hHuvYJER8OULfUyI",
-    "name":"Nätverksskolan",
-    "area":"default_area.json",
-    "available_areas": [{"name":"Nätverksteknik","file":"default_area.json"},{"name":"Övik","file":"test_area.json"}]
-}
