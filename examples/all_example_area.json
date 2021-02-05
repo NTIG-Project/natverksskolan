@@ -1,0 +1,52 @@
+{
+    "name":"",
+    "description": "",
+    "latlng":,
+    "zoom":,
+    "locations":[
+        {
+            "latlng":,
+            "name":"",
+            "description":"",
+            "image": "",
+            "attribution":["",""],
+            "style":"",
+            "actions":[
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                },
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                }
+            ]
+        },
+        {
+            "latlng":,
+            "name":"",
+            "description":"",
+            "image": "",
+            "attribution":["",""],
+            "style":"",
+            "actions":[
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                },
+                {
+                    "name":"",
+                    "href":"",
+                    "style":"",
+                    "target":""
+                }
+            ]
+        }
+    ]
+}
