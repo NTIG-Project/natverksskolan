@@ -20,7 +20,7 @@ För att kunna jobba med systemet behövs en grundläggande förståelse för JS
 
 ### 1. Klona projektet
 
-Det snabbaste sättet att komma igång med din egen version av scenariokartan är att använda Githubs funktioner **Fork** och **Pages**, och den här guiden utgår från dem. Du kan även ladda ner filerna, redigera dem och lägga upp dem på en webbserver. 
+Det snabbaste sättet att komma igång med din egen version av scenariokartan är att använda Githubs funktioner **Fork** och **Pages**, och den här guiden utgår från dem. Du kan även ladda ner filerna, redigera dem och lägga upp dem på en webbserver.
 
 Se till att du har ett [konto på Github](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/signing-up-for-github) och klicka på knappen **Fork** uppe i högra hörnet på den här sidan.
 
@@ -28,9 +28,9 @@ När du följt guiden så har du en egen kopia av systemet. Om du är intressera
 
 ### 2. Google Maps API Key
 
-För att använda Google Maps behövs en API-nyckel kopplad till ett debiteringkonto hos Google. Det är inte gratis att använda Google Maps men det ingår 28000 visningar per månad innan det börjar kosta något. Läs mer om vad det kostar på https://cloud.google.com/maps-platform/pricing/sheet.
+För att använda Google Maps behövs en API-nyckel kopplad till ett debiteringkonto hos Google. Det är inte gratis att använda Google Maps men det ingår 28000 visningar per månad innan det börjar kosta något. Läs mer om vad det kostar på [https://cloud.google.com/maps-platform/pricing/sheet].
 
-Följ instruktionerna på https://developers.google.com/maps/gmp-get-started#procedures för att skapa ett konto och en kopplad nyckel. Tänk på att sätta en begränsning på vilka domäner som kan använda nyckeln så att ingen annan kan använda din nyckel.
+Följ instruktionerna på [https://developers.google.com/maps/gmp-get-started#procedures] för att skapa ett konto och en kopplad nyckel. Tänk på att sätta en begränsning på vilka domäner som kan använda nyckeln så att ingen annan kan använda din nyckel.
 
 ### 3. Skapa settings.json
 
