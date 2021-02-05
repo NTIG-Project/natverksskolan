@@ -1,1 +1,3 @@
+areas/ merge=ours
 settings.json merge=ours
+README.md merge=ours
