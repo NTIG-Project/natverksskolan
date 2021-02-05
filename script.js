@@ -113,6 +113,7 @@ function buildSite() { // Build site
     modals["spinner"].hide(); // If we get this far it's time to close the loading screen
 
     if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show(); } // Show modal if ?location=
+    else if (newcomer) { modals[encodeURIComponent(area.name)].show(); } // Show area modal if first time on site or changed area
 
 }
 
@@ -130,8 +131,6 @@ function loadArea () { // Walk through area object and create everything connect
     }
 
     createModal(areaModal);
-    
-    if (newcomer) { modals[encodeURIComponent(area.name)].show(); }
 }
 
 function buildFooterMenu() { // Build footer menu to contain location cards
