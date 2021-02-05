@@ -101,20 +101,6 @@ function loadAreaSettings(){ // Load area file as area, called from Google Maps 
 
 function buildSite() { // Build site
     buildFooterMenu();
-
-    if (site.available_areas) {
-        if (!site.style) { site.style = "bg-dark text-white border-dark"};
-        var selector = {"name":"Byt område",
-                        "style":site.style,
-                        "actions":[]};
-
-        site.available_areas.forEach(selection => {
-            selector.actions.push({"name":selection.name,"href":"?area="+ selection.file});
-        });
-        createModal(selector);
-        createCard(selector);
-    }
-
     loadMap();
     loadArea();
 
