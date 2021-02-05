@@ -7,10 +7,10 @@ var site; // Site settings object, from json
 var area; // Area settings object, from json
 var url;  // URL Get parameters
 
+var loaded = {google: "none", settings: "none", area: "none", }; // Help for manage asynchronous loading of dependent files
 var modals = {}; // Container for all site modals
 var menus = {}; // Container for all site menus
 
-var newcomer = false; //True if first time visiting area
 
 
 initSite();
@@ -30,28 +30,68 @@ function initSite() { // First function to run
 
 
     url = new URLSearchParams(window.location.search); // Load URL parameteras
-    if (url.get("area")) { 
-        localStorage.setItem("area", url.get("area"));
-        newcomer = true;
-    } // Change area if ?area=
+    if (url.get("area")) { localStorage.setItem("area", url.get("area"))}; // Change area if ?area=
 
-
-    //Start the loading sequence loadSiteSettings -> Google Maps API -> loadAreaSettings -> buildSite
-    loadSiteSettings();
+    waitSite()
 }
 
-function loadSiteSettings(){ // Load settings.json as site, called from initSite()
+function waitSite() { // Structure for asynchronous loading
+
+    if (loaded.settings == "none") {
+        loadSiteSettings();
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.settings == "loading" ) {
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.area == "none") {
+        loadAreaSettings(site.area);
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.area == "loading" ) {
+        window.setTimeout(waitSite, 100);
+    }
+    else if (loaded.google == "none" || loaded.google == "loading") {
+        window.setTimeout(waitSite, 100);
+    }
+    else {
+        loadSite();
+    }    
+
+}
+
+function loadSite() { // Build site
+    createFooterMenu();
+    loadMap();
+    loadArea();
+
+
+    modals["spinner"].hide(); // If we get this far it's time to close the loading screen
+
+    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() }; // Show modal if ?location=
+
+}
+
+
+//******************************************************************************
+// Settings functions
+//******************************************************************************
+
+function loadSiteSettings(){ // Load settings.json as site
     var requestJSON = new XMLHttpRequest();
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             site = JSON.parse(this.responseText);
+            loaded.settings = "done";
+
             //Apply some settings
 
             // Load Google Maps API
             let scriptGoogleApi = document.createElement("script");
-            scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=loadAreaSettings");
+            scriptGoogleApi.setAttribute("src","https://maps.googleapis.com/maps/api/js?key="+ site.map_key +"&callback=readyMap");
             scriptGoogleApi.setAttribute("defer",true);
             document.querySelector("body").append(scriptGoogleApi);
+            loaded.google = "loading";
 
             if (site.favicon) { document.querySelector("link[rel*='icon']").href = site.favicon; } // Set Favicon
             
@@ -66,7 +106,6 @@ function loadSiteSettings(){ // Load settings.json as site, called from initSite
             // Check for saved area
             if (!localStorage.getItem("area")) {
                 localStorage.setItem("area", site.area);
-                newcomer = true;
             }
             else {
                 site.area = localStorage.getItem("area");
@@ -76,27 +115,28 @@ function loadSiteSettings(){ // Load settings.json as site, called from initSite
     };
     requestJSON.open("GET", "settings.json", true);
     requestJSON.send();
+    loaded.settings = "loading";
 }
 
-function loadAreaSettings(){ // Load area file as area, called from Google Maps API Callback
+function loadAreaSettings(targetArea){ // Load area file as area
     var requestJSON = new XMLHttpRequest();
     requestJSON.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             area = JSON.parse(this.responseText);
+            loaded.area = "done";
 
             //Apply some settings
             document.title = site.name +": "+ area.name; // Set site title
-
-            // Everything loades, build site
-            buildSite()
+            
         }
         else if (this.readyState == 4 && this.status == 404) { //If area file does not exist try to reload to default settings
             localStorage.removeItem("area");
             location.assign("/");
         }
     };
-    requestJSON.open("GET", "areas/" + site.area, true);
+    requestJSON.open("GET", "areas/" + targetArea, true);
     requestJSON.send();
+    loaded.area = "loading";
 }
 
 
@@ -104,36 +144,16 @@ function loadAreaSettings(){ // Load area file as area, called from Google Maps 
 // Site builder functions
 //******************************************************************************
 
-function buildSite() { // Build site
-    buildFooterMenu();
-    loadMap();
-    loadArea();
-
-
-    modals["spinner"].hide(); // If we get this far it's time to close the loading screen
-
-    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show(); } // Show modal if ?location=
-    else if (newcomer) { modals[encodeURIComponent(area.name)].show(); } // Show area modal if first time on site or changed area
-
-}
-
 function loadArea () { // Walk through area object and create everything connected to locations
     let locations = area.locations;
     locations.forEach(location => {
-        if (location.latlng) { createMarker(location); } //Skip Marker if no coordinates, useful for creating site and system menus 
+        createMarker(location);
         createModal(location);
         createCard(location);
     });
-
-    let areaModal = {
-        "name": area.name,
-        "description": area.description, 
-    }
-
-    createModal(areaModal);
 }
 
-function buildFooterMenu() { // Build footer menu to contain location cards
+function createFooterMenu() { // Build footer menu to contain location cards
 
     if (!site.style) { site.style = "bg-dark text-white border-dark"};
 
@@ -206,7 +226,7 @@ function createCard(location) { // Build a location card in footer menu
         cardImage.appendChild(pattern.toSVG());
     }
     else if (location.image == "color") { // Apply color generated from location name
-        cardImage.style.backgroundColor = "#"+ getColor(locationID)[0];
+        cardImage.style.backgroundColor = "#"+ checksumColor(location.name);
     }
     else if (location.image) { // Apply image from area object
         cardImage.style.backgroundImage = "url("+ location.image +")";
@@ -219,6 +239,21 @@ function createCard(location) { // Build a location card in footer menu
     document.querySelector("#footer-menu-container").append(card);
 
 }
+
+function checksumColor(s) { // Take string and return colorcode
+  var chk = 0x12345678;
+  var len = s.length;
+  for (var i = 0; i < len; i++) {
+      chk += (s.charCodeAt(i) * (i + 1));
+  }
+
+  return (chk & 0xffffff).toString(16);
+}
+
+
+//******************************************************************************
+// Modal functions
+//******************************************************************************
 
 function createModal(location) { // Build a location modal in body
     var locationID = encodeURIComponent(location.name); // Create string from name that can be used as ID
@@ -234,7 +269,7 @@ function createModal(location) { // Build a location modal in body
     let modalHeader = document.createElement("div");
     modalHeader.setAttribute("class","modal-header align-items-start " + style);
         
-        let modalHeaderH = document.createElement("h1");
+        let modalHeaderH = document.createElement("h2");
         modalHeaderH.innerHTML = location.name;
         modalHeader.append(modalHeaderH);
 
@@ -264,7 +299,7 @@ function createModal(location) { // Build a location modal in body
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
         let pattern =trianglify({
-            height: 200,
+            height: 150,
             width: 800,
             seed: location.name,
             cellSize: 15,
@@ -278,40 +313,27 @@ function createModal(location) { // Build a location modal in body
         let modalImage = document.createElement("div");
         modalImage.setAttribute("class","modal-img modal-img-slim card-img-top rounded-0");
 
-        modalImage.style.backgroundColor = "#"+ getColor(locationID)[0];
+        modalImage.style.backgroundColor = "#"+ checksumColor(location.name);
         
         modalContent.append(modalImage);
     }
     else if (location.image) { // Apply image from area object
-        let modalImage = document.createElement("div");
-        modalImage.setAttribute("class","modal-img modal-img-slim modal-img rounded-0");
-        modalImage.style.backgroundImage = "url("+ location.image +")";
+        let modalImage = document.createElement("img");
+        modalImage.setAttribute("class","modal-img card-img-top rounded-0");
+        modalImage.setAttribute("src", location.image);
         modalContent.append(modalImage);
-
-        if (location.attribution) {
-            let modalImageAttribution = document.createElement("a");
-            modalImageAttribution.setAttribute("class","image-attribution");
-            modalImageAttribution.setAttribute("target","_blank");
-            modalImageAttribution.setAttribute("href",location.attribution[1]);
-            modalImageAttribution.innerHTML = location.attribution[0];
-            modalImage.append(modalImageAttribution);
-        }
     }
     else { // Image disabled
     }
 
 
-    if (location.description) {
-        let modalBody = document.createElement("div");
-        modalBody.setAttribute("class","modal-body"); //Keep body of modal always white
-        //modalBody.setAttribute("class","modal-body " + style);
-    
-        // Evaluate markdown code to html
-        let markdown = new showdown.Converter();
-        modalBody.innerHTML = markdown.makeHtml(location.description);
-        modalContent.append(modalBody);
-    }
+    let modalBody = document.createElement("div");
+    modalBody.setAttribute("class","modal-body " + style);
 
+    // Evaluate markdown code to html
+    let markdown = new showdown.Converter();
+    modalBody.innerHTML = markdown.makeHtml(location.description);
+    modalContent.append(modalBody);
 
     // Walk through actions for location and create buttons
     if (location.actions) {
@@ -351,6 +373,7 @@ function createModal(location) { // Build a location modal in body
     modals[locationID] =  new bootstrap.Modal(document.getElementById(locationID));
 }
 
+
 function copyLink(locationID, linkButton) { // Create direct link to modal and copy to clipboard
     let locationLink = window.location.href.split('?')[0] +"?area="+ site.area +"&location="+ locationID;
     let locationLinkInput = document.createElement("input");
@@ -384,8 +407,12 @@ function copyLink(locationID, linkButton) { // Create direct link to modal and c
 // Map functions
 //******************************************************************************
 
+function readyMap() { // Called as Google Maps API callback
+    loaded.google = "done";
+}
+
 function loadMap() { // Create map
-    let centerPoint = { lat: area.latlng[0], lng: area.latlng[1] };
+    let centerPoint = { lat: area.lat, lng: area.lng };
     if (area.zoom) { var zoom = area.zoom }
     else { zoom = 15 }
 
@@ -405,8 +432,8 @@ function createMarker(location) { // Create a location marker on map
         animation: google.maps.Animation.DROP,
         title: location.name,
         position: {
-            lat: location.latlng[0],
-            lng: location.latlng[1]
+            lat: location.lat,
+            lng: location.lng
         }
     });
     marker.addListener("click", () => {
@@ -415,27 +442,4 @@ function createMarker(location) { // Create a location marker on map
 }
 
 
-//******************************************************************************
-// Helper functions
-//******************************************************************************
 
-function getColor(s, scheme) { // Take string and return colorcode
-    var chk = 0x111111;
-    var len = s.length;
-    for (var i = 0; i < len; i++) {
-        chk += (s.charCodeAt(i) * (i + 12345));
-    }
-  
-    var baseColor = (chk & 0xffffff).toString(16);
-  
-    var colors = [baseColor] 
-  
-    if (scheme) {
-        let colorScheme = new ColorScheme;
-        colorScheme.from_hex(baseColor);
-        colors = colors.concat(colorScheme.colors());
-  
-    }
-  
-    return colors;
-}
