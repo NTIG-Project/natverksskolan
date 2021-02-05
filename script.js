@@ -235,7 +235,7 @@ function createModal(location) { // Build a location modal in body
     let modalHeader = document.createElement("div");
     modalHeader.setAttribute("class","modal-header align-items-start " + style);
         
-        let modalHeaderH = document.createElement("h2");
+        let modalHeaderH = document.createElement("h1");
         modalHeaderH.innerHTML = location.name;
         modalHeader.append(modalHeaderH);
 

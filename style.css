@@ -1,10 +1,22 @@
 body {
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito Sans', sans-serif;
+
+h1 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.05em;
 }
+
+h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn {
+    font-family: 'Roboto Mono', sans-serif;
+}
+
 
 header {
     position: absolute;
