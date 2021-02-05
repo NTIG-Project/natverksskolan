@@ -10,6 +10,7 @@ var url;  // URL Get parameters
 var modals = {}; // Container for all site modals
 var menus = {}; // Container for all site menus
 
+var newcomer = false; //True if first time visiting area
 
 
 initSite();
@@ -29,7 +30,10 @@ function initSite() { // First function to run
 
 
     url = new URLSearchParams(window.location.search); // Load URL parameteras
-    if (url.get("area")) { localStorage.setItem("area", url.get("area"))}; // Change area if ?area=
+    if (url.get("area")) { 
+        localStorage.setItem("area", url.get("area"));
+        newcomer = true;
+    } // Change area if ?area=
 
 
     //Start the loading sequence loadSiteSettings -> Google Maps API -> loadAreaSettings -> buildSite
@@ -62,6 +66,7 @@ function loadSiteSettings(){ // Load settings.json as site, called from initSite
             // Check for saved area
             if (!localStorage.getItem("area")) {
                 localStorage.setItem("area", site.area);
+                newcomer = true;
             }
             else {
                 site.area = localStorage.getItem("area");
@@ -107,7 +112,7 @@ function buildSite() { // Build site
 
     modals["spinner"].hide(); // If we get this far it's time to close the loading screen
 
-    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show() }; // Show modal if ?location=
+    if (url.get("location")) { modals[encodeURIComponent(url.get("location"))].show(); } // Show modal if ?location=
 
 }
 
@@ -118,6 +123,15 @@ function loadArea () { // Walk through area object and create everything connect
         createModal(location);
         createCard(location);
     });
+
+    let areaModal = {
+        "name": area.name,
+        "description": area.description, 
+    }
+
+    createModal(areaModal);
+    
+    if (newcomer) { modals[encodeURIComponent(area.name)].show(); }
 }
 
 function buildFooterMenu() { // Build footer menu to contain location cards
