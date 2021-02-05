@@ -114,7 +114,7 @@ function buildSite() { // Build site
 function loadArea () { // Walk through area object and create everything connected to locations
     let locations = area.locations;
     locations.forEach(location => {
-        createMarker(location);
+        if (location.latlng) { createMarker(location); } //Skip Marker if no coordinates, useful for creating site and system menus 
         createModal(location);
         createCard(location);
     });
