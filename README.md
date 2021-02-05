@@ -12,7 +12,7 @@ Webbverktyg för att publicera scenarion och uppgifter på en karta. Den "platta
 
 ### Nätverksskolan
 
-Systemet kan ses i aktiv användning på Nätverksskolan.
+Systemet kan ses i aktiv användning på [Nätverksskolan](https://github.com/NTIG-Project/natverksskolan).
 
 ## Kom igång
 
@@ -74,6 +74,7 @@ Genom Github Pages kan du driftsätta en sida utan att behöva ha en egen server
 * [Google Fonts](https://fonts.google.com/)
 * [Trianglify](https://github.com/qrohlf/trianglify)
 * [Showdown](https://github.com/showdownjs/showdown)
+* [color-scheme-js](https://github.com/c0bra/color-scheme-js)
 
 ## Övrigt
 

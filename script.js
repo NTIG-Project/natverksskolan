@@ -36,11 +36,6 @@ function initSite() { // First function to run
     loadSiteSettings();
 }
 
-
-//******************************************************************************
-// Settings functions
-//******************************************************************************
-
 function loadSiteSettings(){ // Load settings.json as site, called from initSite()
     var requestJSON = new XMLHttpRequest();
     requestJSON.onreadystatechange = function() {
@@ -444,4 +439,4 @@ function getColor(s, scheme) { // Take string and return colorcode
     }
   
     return colors;
-  }
+}
